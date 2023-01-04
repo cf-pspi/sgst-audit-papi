@@ -1,0 +1,26 @@
+# Listener Configurations
+http:
+ path : "api/*"
+ host : "localhost"
+ port : "8082"
+ timeout : "30000"
+ 
+#common-email-utility
+email:
+ url : "https://mq-us-east-1.anypoint.mulesoft.com/api/v1"
+ clientid : "3b109a1dd2a84b238e8eaa858e572009"
+ clientsecret : "C569f53f48e44a0aA0c7EcA5115c872f"
+ destination : "mq-common-email-utility-sit"
+ 
+#Email SMTP
+emailSMTP:
+ user : "sabeenashaik422@gmail.com" 
+ password : "guulzmswowptaleb"
+ 
+#Json-logger
+json:
+  logger:
+    application:
+      version: '1.0'
+      name: sample-json-logger
+    env: dev

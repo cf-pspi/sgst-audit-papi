@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="sgst-common-pcs-backup-utility-test-suite.xml" />
+	<munit:test name="sgst-common-utility-success" doc:id="87461e2d-860d-492a-988e-41135121ea65">
+		<munit:execution >
+			<munit:set-event doc:name="Set Input" doc:id="b4fea21e-ac45-4d7d-9227-2d303edc46d9">
+				<munit:payload value="#[output multipart/form-data boundary=&quot;--------------------------504657785640893969086118&quot; --- readUrl('classpath://sgstcommonutilitysuccess\set-event_payload.dwl')]" encoding="UTF-8" mediaType="multipart/form-data" />
+				<munit:attributes value="#[readUrl('classpath://sgstcommonutilitysuccess\set-event_attributes.dwl')]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to sgst-common-pcs-backup-utility-main" doc:id="7f220679-6651-4dfe-89e1-7bacbc36c9d9" name="post:\backup:multipart\form-data:sgst-audit-papi-config"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="20b97945-fb00-4d7c-8f5c-8fe421117551" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+
+		</munit:validation>
+	
+</munit:test>
+	<munit:test name="sgst-common-pcs-backup-utility-suiteTest" doc:id="7d2c5142-93d4-4445-89d1-10ae1dfb2efa">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ee4e98ac-7773-4efc-b78d-98ed6bd1823d" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sgst-audit-papi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="5e4f098c-92c0-4e2a-a389-1d54c31aed55" >
+				<munit:attributes value="#[
+    {
+        headers : {'transaction-id': '112233'}
+    }]" />
+				
+			</munit:set-event>
+			<try doc:name="Try" doc:id="9f751c11-0408-4a7e-a4e0-30a699ceafba" >
+				<flow-ref doc:name="Flow Reference" doc:id="da637222-6dfe-4b81-b71c-8d25424a01e4" name="sgst-audit-papi-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b064c7d4-8534-4d1b-aede-c6d28a617015" >
+						<logger level="INFO" doc:name="Logger" doc:id="fb1a980e-28c7-42ed-a3b8-78855f9eb34a" message="APIKIT:BAD_REQUEST"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="44b8b965-3efc-4c91-ad7c-503cb51ea603" expression="#[payload.errorCode]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+<munit:test name="sgst-common-pcs-backup-utility-not-found" doc:id="6d8d1e31-9124-4367-abea-e33bedc21dd0">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="507b2f18-d386-4318-b48b-d89bee9e2a20" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sgst-audit-papi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="87db886a-e087-4eeb-8c35-d8cdc6a46227" >
+				<munit:attributes value="#[
+    {
+        headers : {'transaction-id': '112233'}
+    }]" />
+				
+			</munit:set-event>
+			<try doc:name="Try" doc:id="0565db74-93f4-4c85-98c5-e206da60668f" >
+				<flow-ref doc:name="Flow Reference" doc:id="1a564da6-2c47-4ac5-92f8-5ae827299457" name="sgst-audit-papi-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b870efcb-543a-4027-9985-6782de7481f4" >
+						<logger level="INFO" doc:name="Logger" doc:id="f3b3c46a-de72-43cc-a4fe-50d564567b42" message="APIKIT:NOT_FOUND"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="f62959bc-6538-4f4f-b407-38091bc7545d" expression="#[payload.errorCode]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+<munit:test name="sgst-common-pcs-backup-utility-method-not-allowed" doc:id="7dfa39d8-9aed-42c7-a5aa-70558c1f3559">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="1db63475-08cd-46ff-88eb-0c5c4369721c" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sgst-audit-papi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="84fe1da9-2d10-4059-b888-5f69d2842061" >
+				<munit:attributes value="#[
+    {
+        headers : {'transaction-id': '112233'}
+    }]" />
+				
+			</munit:set-event>
+			<try doc:name="Try" doc:id="2dba9313-084d-4657-bab3-6223d51a3ddb" >
+				<flow-ref doc:name="Flow Reference" doc:id="fb726226-2945-4830-84f1-5fba7985b5ff" name="sgst-audit-papi-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="716743c9-e0b1-4121-ae99-7c71a168fd43" >
+						<logger level="INFO" doc:name="Logger" doc:id="1c540da7-e8e2-4df6-920f-6f38b2b18078" message="APIKIT:METHOD_NOT_ALLOWED"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="7cfc971f-36ee-4c5f-9f7d-02ff008056cd" expression="#[payload.errorCode]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+<munit:test name="sgst-common-pcs-backup-utility-not-acceptable" doc:id="b8096a74-7995-48b3-8535-6f9c04af7546">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="fd229b62-2654-42db-a291-845a9ae79d28" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sgst-audit-papi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="39cc7c3b-a232-45f0-8826-3a4c7645ec14" >
+				<munit:attributes value="#[
+    {
+        headers : {'transaction-id': '112233'}
+    }]" />
+				
+			</munit:set-event>
+			<try doc:name="Try" doc:id="9499d34a-809f-47a4-b02b-a2164a505015" >
+				<flow-ref doc:name="Flow Reference" doc:id="9b2b7ece-c505-40f8-9d26-64a8b5d213d7" name="sgst-audit-papi-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="72a57380-dc89-47cd-b0d5-470e4c6d8515" >
+						<logger level="INFO" doc:name="Logger" doc:id="0ed8bfba-101a-46fc-872e-d58cc812cad1" message="APIKIT:NOT_ACCEPTABLE"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="14f09b6b-ac1a-411d-a927-2d3bb7d5091d" expression="#[payload.errorCode]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+<munit:test name="sgst-common-pcs-backup-utility-unsupport-media-type" doc:id="f040acc3-e07c-434e-9cde-6bad7fa16e07">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="1bad3fb2-4d65-4c94-a172-0804570dc99c" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sgst-audit-papi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="c5673409-04d9-4fca-b65d-ed38db40d33a" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sgst-common-pcs-backup-utility-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			
+</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="09541e36-a0e0-4cd9-88d0-72497a924ee1" >
+				<munit:attributes value="#[
+    {
+        headers : {'transaction-id': '112233'}
+    }]" />
+				
+			</munit:set-event>
+			<try doc:name="Try" doc:id="5ec9547d-8c95-42fa-be78-1680633ca57e" >
+				<flow-ref doc:name="Flow Reference" doc:id="991c2696-aad1-4b22-89af-226a78108509" name="sgst-audit-papi-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="a9396f26-9757-4466-a216-c66ff6170b8d" >
+						<logger level="INFO" doc:name="Logger" doc:id="bd0f7be6-529d-4737-b7eb-5db2e6251ab0" message="APIKIT:UNSUPPORTED_MEDIA_TYPE"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="97a4b309-ce6d-4b7a-bfc1-095bb7c2c9a5" expression="#[payload.errorCode]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+<munit:test name="sgst-common-pcs-backup-utility-not-implemented" doc:id="68797183-8af3-4b71-88e1-cee716893579">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="40f79cc8-b4ff-43f3-97a6-5a2b391f10ac" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sgst-audit-papi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="e15f3f83-518b-4ec1-a9c5-fc9386de99c5" >
+				<munit:attributes value="#[
+    {
+        headers : {'transaction-id': '112233'}
+    }]" />
+				
+			</munit:set-event>
+			<try doc:name="Try" doc:id="58d00dbe-f1dd-4afe-bb31-b40a6e98eceb" >
+				<flow-ref doc:name="Flow Reference" doc:id="7bb33ad6-ab39-4987-a9d3-5fb037f3f915" name="sgst-audit-papi-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f86b6c14-6aaf-4f76-b6e3-4e51bb06f47c" >
+						<logger level="INFO" doc:name="Logger" doc:id="1c9c3a5e-81dc-40f5-bf35-700f1c25ebb2" message="APIKIT:NOT_IMPLEMENTED"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="c9327a66-6b49-40b0-b3b8-a45723aa686a" expression="#[payload.errorCode]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+<munit:test name="sgst-common-pcs-backup-utility-expression-error" doc:id="ae17c641-5f8c-47cc-bd30-a5f1a2ff736a">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="6ad93e97-54e1-4601-9a3c-807c24a6bfec" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="sgst-audit-papi-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="MULE:EXPRESSION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="1b3370e9-6a4f-4367-a8ee-5f1afbf050e7" >
+				<munit:attributes value="#[
+    {
+        headers : {'transaction-id': '112233'}
+    }]" />
+				
+			</munit:set-event>
+			<try doc:name="Try" doc:id="b3b9061c-1ff2-424c-87fc-b660e3bc67f1" >
+				<flow-ref doc:name="Flow Reference" doc:id="5dd45e4a-621c-4b24-a2fb-570bba048f66" name="sgst-audit-papi-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="e6ae3fb9-ddd6-489b-bda3-6ddacbb16e5b" >
+						<logger level="INFO" doc:name="Logger" doc:id="8f838348-241c-4a43-8f4a-1d35404bfee0" message="MULE:EXPRESSION"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="a6faa70b-9e0f-44f2-bf7f-7fb6ec2f48a0" expression="#[payload.errorCode]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+
+	<munit:test name="sgst-common-utility-sftp-error" doc:id="97eb0cce-a5e9-47de-938d-e300bc2e1e66">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="e1fc3e28-d0fa-4026-a7ca-c713dad5a755" processor="file:write">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Write file in local directory" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="02861db2-984a-442a-a998-f708b8ebaa52" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="SFTP:CONNECTIVITY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="4a6ec5d5-96e9-4555-ba43-71b4c6168f00" processor="email:send">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Send" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="8e803306-9876-4781-a679-5d419317c6ef" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Input" doc:id="66df7a97-52dd-4956-9704-25b848053b9f">
+				<munit:payload value="#[output multipart/form-data boundary=&quot;--------------------------504657785640893969086118&quot; --- readUrl('classpath://sgstcommonutilitysuccess\set-event_payload.dwl')]" encoding="UTF-8" mediaType="multipart/form-data" />
+				<munit:attributes value="#[readUrl('classpath://sgstcommonutilitysuccess\set-event_attributes.dwl')]" />
+			</munit:set-event>
+			<try doc:name="Try" doc:id="164b63a5-fd34-4596-b516-0de6ae50a8a1" >
+				<flow-ref doc:name="Flow-ref to sgst-common-pcs-backup-utility-main" doc:id="dc81a003-38c9-4423-9202-0d83ebc8b408" name="post:\backup:multipart\form-data:sgst-audit-papi-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="7c20f810-f7fa-4421-98d1-1b24f08f7587" >
+						<logger level="INFO" doc:name="Logger" doc:id="886dad4f-d137-4395-a8c5-f88e71a8ba2f" message="SFTP:CONNECTIVITY"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		
+</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="0aa69e11-a686-48b1-8fbd-bc79e03fd928" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+
+		</munit:validation>
+	
+</munit:test>
+	<munit:test name="sgst-common-utility-decompress-error" doc:id="c57f6ae8-f06d-4d64-b7c9-cfe82e7fe588">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="fff90cda-fb33-4ee2-8403-0d599242eade" processor="compression:decompress">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Decompress a zip file" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="bf908fe3-d9c9-4876-a94f-3cab4329f7ce" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="COMPRESSION:COULD_NOT_DECOMPRESS" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="edd9d823-4a72-462f-87cf-b8b05d8e79d4" processor="email:send">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Send" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="8e803306-9876-4781-a679-5d419317c6ef" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Input" doc:id="0149bfbe-6a51-4d0a-b6f7-d634cae5f6f9">
+				<munit:payload value="#[output multipart/form-data boundary=&quot;--------------------------504657785640893969086118&quot; --- readUrl('classpath://sgstcommonutilitysuccess\set-event_payload.dwl')]" encoding="UTF-8" mediaType="multipart/form-data" />
+				<munit:attributes value="#[readUrl('classpath://sgstcommonutilitysuccess\set-event_attributes.dwl')]" />
+			</munit:set-event>
+			<try doc:name="Try" doc:id="671767b7-5f2e-4ccd-8e72-8887a674ba54" >
+				<flow-ref doc:name="Flow-ref to sgst-common-pcs-backup-utility-main" doc:id="6b57c054-ec7f-4cbd-99c8-f48876bc5432" name="post:\backup:multipart\form-data:sgst-audit-papi-config" />
+				<error-handler>
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="fe9d4872-c108-42f0-bcbe-69c167371de5" >
+						<logger level="INFO" doc:name="Logger" doc:id="39d89ce3-a8c4-45e9-a23b-e83c76a37e91" message="COMPRESSION:COULD_NOT_DECOMPRESS" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		
+</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="1b3951ef-3337-4fc1-b256-687762f79d70" is="#[MunitTools::notNullValue()]" expression="#[payload]"/>
+
+		</munit:validation>
+	
+</munit:test>
+</mule>
