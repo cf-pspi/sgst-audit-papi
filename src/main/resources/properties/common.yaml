@@ -1,0 +1,26 @@
+#API Manager config
+api:
+  autodiscovery.id:""
+
+#HTTP reconnection startegy
+reconnection:
+  frequency: '5000'
+  attempts: '3'
+  timeout: '40000'
+  
+
+#HTTP config details
+http:
+  host: '0.0.0.0'
+  port: '8082'
+  path: '/api/v1/*'
+  timeout: '30000'
+
+#Retry Configuration
+until:
+  retry:
+    count: '5'
+    interval: '5000'
+
+   
+ 

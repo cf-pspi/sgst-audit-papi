@@ -1,0 +1,9 @@
+#%RAML 1.0 SecurityScheme
+type: Basic Authentication
+description: Basic Authentication security for System API
+describedBy:
+  headers:
+    client_id:
+      description: Client Id in base 64 format
+    client_secret:
+      description: Client Secret in base 64 format

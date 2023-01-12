@@ -1,0 +1,43 @@
+
+#common-email-utility
+email:
+ url : "https://mq-ap-southeast-1.anypoint.mulesoft.com/api/v1"
+ clientid : "3b109a1dd2a84b238e8eaa858e572009"
+ clientsecret : "C569f53f48e44a0aA0c7EcA5115c872f"
+ destination : "mq-common-email-utility-sit"
+ 
+#Email SMTP
+emailSMTP:
+ user : "sabeenashaik422@gmail.com" 
+ password : "guulzmswowptaleb"
+ host: "157.8.1.154"
+ port: ""
+ toAddress: "sabeenashaik422@gmail.com" ##apacmulesupport@sg.panasonic.com
+ fromAddress: "sabeenashaik422@gmail.com" ##apacmulesupport@sg.panasonic.com
+ 
+#Json-logger
+json:
+  logger:
+    application:
+      version: '1.0'
+      name: sample-json-logger
+    env: dev
+
+  
+ ######################### Anypoint MQ Config ######################
+amq:
+  notification:
+    email:
+      publish: 
+        url: 'https://mq-ap-southeast-1.anypoint.mulesoft.com/api/v1'
+        path:   'mq-common-email-utility-sit'
+        client:
+          id:     '3b109a1dd2a84b238e8eaa858e572009'
+          secret: 'C569f53f48e44a0aA0c7EcA5115c872f'
+ ######################### SFTP Config ######################
+sftp:
+  pcs:
+    host: '10.86.48.62'
+    port: '22'
+    username: 'mule2Spana'
+    password: 'Ah7VGyRPyLrDqv16k0OVMjbRf2uKp3/Cv2E/9PGqmhk='
