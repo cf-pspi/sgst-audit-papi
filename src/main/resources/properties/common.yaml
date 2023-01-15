@@ -12,15 +12,18 @@ reconnection:
 #HTTP config details
 http:
   host: '0.0.0.0'
-  port: '8082'
+  port: '8081'
   path: '/api/v1/*'
-  timeout: '30000'
+  timeout: '50000'
 
 #Retry Configuration
 until:
   retry:
     count: '5'
     interval: '5000'
-
+sftp:
+  reconnection:
+    attempts: '3'
+    interval: '5000'
    
  

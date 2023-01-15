@@ -1,25 +1,60 @@
 #%RAML 1.0
 title: SGST Audit PAPI
-description: Process API to publish the files to common storage system.
-        
-traits:  
-  pcsHeaders: !include trait-pcs-headers.raml
 
 uses:
-  dataTypesLib: exchange_modules/69195e0c-f771-4438-a4b2-58237c4947b6/datatypes-library/1.0.1/datatypes-library.raml
-  traitsLib: exchange_modules/69195e0c-f771-4438-a4b2-58237c4947b6/traits-library/1.0.1/traits-library.raml
-  resourceTypesLib: exchange_modules/69195e0c-f771-4438-a4b2-58237c4947b6/resource-types-library/1.0.1/library-resource-types.raml
-  securitySchemesLib: exchange_modules/69195e0c-f771-4438-a4b2-58237c4947b6/security-schemes-library/1.0.0/library-security-schemes.raml
+  dataTypesLib: exchange_modules/69195e0c-f771-4438-a4b2-58237c4947b6/datatypes-library/1.0.10/datatypes-library.raml
+  traitsLib: exchange_modules/69195e0c-f771-4438-a4b2-58237c4947b6/traits-library/1.0.4/traits-library.raml
 
-
-#securitySchemes: securitySchemesLib.basicAuthentication
+types:
+  file-backup:
+    properties:
+      File:
+        type: file
+        description: The file received from the source system
+  error-details:
+    properties:
+      errorCode:
+        type: string
+        description: Error Code of the failed transaction
+      errorDesc:
+        type: string
+        description: Error Description of the failed transaction
+  notification:
+    properties:
+      apiName:
+        type: string
+        description: API Name of the failed transaction
+      correlationID:
+        type: string
+        description: Crrelation ID of the failed transaction
+      toAddress:
+        type: array
+        description: To Address of the failed transaction
+      fileName:
+        type: string
+        description: File Name of the failed transaction
+      filePath:
+        type: string
+        description: File Path of the failed transaction
+      errorDetails:
+        type: error-details
+        description: Error Details of the failed transaction
+        
+traits:
+  pcs-headers: !include trait-pcs-headers.raml
 
 /backup:
   post:
-    is: 
-      - traitsLib.hasCorrelationID
-      - pcsHeaders
+    is: [traitsLib.hasResponses, pcs-headers, traitsLib.hasClientIdEnforcement]
+    description: 
     body:
       multipart/form-data:
-        type: file
+        type: file-backup
+/notification:
+  post:
+    is: [traitsLib.hasResponses, traitsLib.hasClientIdEnforcement]
+    description: 
+    body:
+      application/json:
+        type: notification
 

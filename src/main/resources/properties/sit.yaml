@@ -8,12 +8,10 @@ email:
  
 #Email SMTP
 emailSMTP:
- user : "sabeenashaik422@gmail.com" 
- password : "guulzmswowptaleb"
  host: "157.8.1.154"
- port: ""
- toAddress: "sabeenashaik422@gmail.com" ##apacmulesupport@sg.panasonic.com
- fromAddress: "sabeenashaik422@gmail.com" ##apacmulesupport@sg.panasonic.com
+ port: "1025"
+ toAddress: "sabeena.shaik@sg.panasonic.com" ##apacmulesupport@sg.panasonic.com
+ fromAddress: "apacmulesupport@sg.panasonic.com"
  
 #Json-logger
 json:
@@ -40,4 +38,4 @@ sftp:
     host: '10.86.48.62'
     port: '22'
     username: 'mule2Spana'
-    password: 'Ah7VGyRPyLrDqv16k0OVMjbRf2uKp3/Cv2E/9PGqmhk='
+    password: '![Ah7VGyRPyLrDqv16k0OVMjbRf2uKp3/Cv2E/9PGqmhk=]'

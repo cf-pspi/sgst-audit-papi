@@ -1,11 +1,11 @@
 #%RAML 1.0 Library
 usage: Library of Traits
 uses:
-  dataTypesLib: exchange_modules/69195e0c-f771-4438-a4b2-58237c4947b6/datatypes-library/1.0.1/datatypes-library.raml
+  dataTypesLib: exchange_modules/69195e0c-f771-4438-a4b2-58237c4947b6/datatypes-library/1.0.10/datatypes-library.raml
   
 traits:
   hasClientIdEnforcement:
-    queryParameters:
+    headers:
       client_id:
         type: string
       client_secret:
@@ -30,6 +30,42 @@ traits:
     responses:
       200:
         body:
+          application/json:
+            type: dataTypesLib.SuccessResponse
+      400:
+        body:
+          application/json:
+            type: dataTypesLib.ErrorResponse
+      401:
+        body:
+          application/json:
+            type: dataTypesLib.ErrorResponse
+      403:
+        body:
+          application/json:
+            type: dataTypesLib.ErrorResponse
+      404:
+        body:
+          application/json:
+            type: dataTypesLib.ErrorResponse
+      500:
+        body:
+          application/json:
+            type: dataTypesLib.ErrorResponse
+      502:
+        body:
+          application/json:
+            type: dataTypesLib.ErrorResponse
+      504:
+        body:
+          application/json:
+            type: dataTypesLib.ErrorResponse
+  hasResponsesWithFile:
+    responses:
+      200:
+        body:
+          application/zip:
+            type: file
           application/json:
             type: dataTypesLib.SuccessResponse
       400:

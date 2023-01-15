@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
-	xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp" xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:compression="http://www.mulesoft.org/schema/mule/compression" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
-http://www.mulesoft.org/schema/mule/compression http://www.mulesoft.org/schema/mule/compression/current/mule-compression.xsd
-http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
-http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
-http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd
-http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd
-http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
-  <flow name="sgst-audit-papi-main" doc:id="9bd777af-9baf-49e5-b871-dd228ec31145">
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:compression="http://www.mulesoft.org/schema/mule/compression" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd  http://www.mulesoft.org/schema/mule/compression http://www.mulesoft.org/schema/mule/compression/current/mule-compression.xsd http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+    <flow name="sgst-audit-papi-main" doc:id="9bd777af-9baf-49e5-b871-dd228ec31145">
         <http:listener config-ref="HTTP_Listener_config" path="${http.path}" doc:name="Listener">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
@@ -18,116 +10,147 @@ http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/m
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
-		<set-variable value="#[attributes.headers.correlationID]" doc:name="set-transaction-id" doc:id="d84f3b86-b970-4cec-ac05-9bde7392e582" variableName="correlationID"/>
-		<apikit:router config-ref="sgst-audit-papi-config" />
-		<error-handler ref="global-exception-strategy" />
+        <set-variable value="#[attributes.headers.correlationID]" doc:name="set-transaction-id" doc:id="d84f3b86-b970-4cec-ac05-9bde7392e582" variableName="correlationID" />
+        <apikit:router config-ref="sgst-audit-papi-config" />
+        <error-handler ref="global-exception-strategy" />
     </flow>
     <flow name="post:\backup:multipart\form-data:sgst-audit-papi-config">
-		<json-logger:logger doc:name="entry-logger" doc:id="c49cf1a2-c442-4547-bb94-37c58f9fd5c9" config-ref="JSON_Logger_Config1" message="Backup flow Started" correlationId="#[vars.correlationID]"/>
-		<ee:transform doc:name="retrieve-params" doc:id="8ea35696-c2d4-49d2-a794-cbd8b48d98d8" >
-			<ee:message >
-			</ee:message>
-			<ee:variables >
-				<ee:set-variable resource="dwl/inputQueryParams.dwl" variableName="inputParameters" />
-				<ee:set-variable variableName="vZipFile" ><![CDATA[%dw 2.0
+        <ee:transform doc:name="retrieve-params" doc:id="8ea35696-c2d4-49d2-a794-cbd8b48d98d8">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable resource="dwl/inputQueryParams.dwl" variableName="inputParameters" />
+                <ee:set-variable variableName="vZipFile"><![CDATA[%dw 2.0
 output application/java
 input payload multipart/form-data
 ---
 payload.parts.'File'.content]]></ee:set-variable>
-			</ee:variables>
-		</ee:transform>
-		<json-logger:logger doc:name="logger-before-compress" doc:id="45a054ff-9b30-4c87-a36c-4ec7253af3d4" config-ref="JSON_Logger_Config1" message="Start Decompress zip File" correlationId="#[vars.correlationID]"/>
-		<try doc:name="Try" doc:id="3ca3fbba-b900-4cf5-bc8e-bb77941be5c5" >
-			<compression:decompress doc:name="decompress-file" doc:id="f77b7d5b-3705-429e-a552-c0a54ddae247">
-			<compression:compressed><![CDATA[#[payload.parts..content[0]]]]></compression:compressed>
-			<compression:decompressor>
-				<compression:zip-decompressor />
-			</compression:decompressor>
-		</compression:decompress>
-			<error-handler >
-				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="719cbe43-d150-4218-8892-b39995a19ad4" type="COMPRESSION:*">
-					<ee:transform doc:name="error-case" doc:id="564459ba-3158-4315-8923-f64dcfdc299b">
-					<ee:message>
-					</ee:message>
-					<ee:variables>
-						<ee:set-variable variableName="httpStatus"><![CDATA[500]]></ee:set-variable>
-							<ee:set-variable resource="dwl/errorDecompression.dwl" variableName="vErrorMessage" />
-					</ee:variables>
-				</ee:transform>
-					<flow-ref doc:name="email-notification-flow" doc:id="e51674c9-939b-433f-a963-9e384464397b" name="sgst-audit-papi-email-notification" />
-					<set-payload value="#[vars.vErrorMessage]" doc:name="set-response-message" doc:id="e31c05e7-33a7-42a6-ac67-6b2b65198e1d" />
-				</on-error-propagate>
-			</error-handler>
-		</try>
-		<json-logger:logger doc:name="logger-after-decompress" doc:id="21aff523-3fdc-4c97-ac36-443d7f7f5887" config-ref="JSON_Logger_Config1" message="End Decompress zip File" correlationId="#[vars.correlationID]" tracePoint="END"/>
-		<set-variable value="#[payload]" doc:name="set-decompress-file" doc:id="bb481fcd-887b-4508-bad4-292e16c2998e" variableName="vDecompressFile"/>
-		<json-logger:logger doc:name="logger-before-sftp" doc:id="25014dd1-e357-4e2d-b8a6-7f8abedee312" config-ref="JSON_Logger_Config1" message="Before File Backup to SFTP" correlationId="#[vars.correlationID]"/>
-		<try doc:name="Try" doc:id="7a7c32f7-a5e8-480d-86fa-c0c22ee1dc9b" >
-			<sftp:write doc:name="write-to-pcs" doc:id="9b2a20fa-b44d-48e7-b2ce-2cb9ce3baa0f" config-ref="SFTP_Config" path='#["/" ++ lower(vars.inputParameters.direction) ++ "/" ++ lower(vars.inputParameters.externalSystem) ++ "/" ++ lower(vars.inputParameters.fileType) ++ "/" ++ lower(vars.inputParameters.fileName) ++ "." ++ vars.inputParameters.fileExtension]'/>
-			<!-- [STUDIO:"Write file in local directory"]			<file:write doc:name="Write file in local directory" doc:id="d76b8c4f-b774-464e-8f80-5bd1e8f06bca" path="#['C:\\test_files\compressed\decompressed-' ++ (now() as String{format:'yyyy-MM-dd-hh-mm-ss'}) ++ '.csv']" /> [STUDIO] -->
-			<error-handler >
-				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="7092037a-3592-49b0-ae34-666ba0677aea" type="SFTP:*">
-					<ee:transform doc:name="error-case" doc:id="6fd84aab-86b3-459a-b160-6c8fbc978073">
-					<ee:message>
-					</ee:message>
-					<ee:variables>
-						<ee:set-variable variableName="httpStatus"><![CDATA[500]]></ee:set-variable>
-							<ee:set-variable resource="dwl/errorResponse.dwl" variableName="vErrorMessage" />
-					</ee:variables>
-				</ee:transform>
-					<flow-ref doc:name="email-notification-flow" doc:id="e0358904-d454-48bb-8c4f-c31903f75eff" name="sgst-audit-papi-email-notification" />
-					<set-payload value="#[vars.vErrorMessage]" doc:name="set-response-message" doc:id="798a7138-489c-4b53-95a3-905575e242ea" />
-				</on-error-propagate>
-			</error-handler>
-		</try>
-	 <!--  <sftp:write doc:name="Write" doc:id="8971b2c7-1260-418c-b8d3-252b268e4a86" config-ref="SFTP_Config" path="#['/'++ vars.inputParameters.direction ++ '/' ++ vars.inputParameters.externalSystem ++ '/'  ++ vars.inputParameters.fileType ++ '/' ++ vars.inputParameters.fileName ++ '.'  ++ vars.inputParameters.fileExtension]"/> -->
-		<json-logger:logger doc:name="logger-after-sftp" doc:id="43f5345d-3822-4ff2-83d9-a69b14408c10" config-ref="JSON_Logger_Config1" message="After File Backup to SFTP" correlationId="#[vars.correlationID]" tracePoint="END"/>
-		<ee:transform doc:name="final-response" doc:id="1c8cacc4-d529-4bdd-b2d1-82b9d11ede0d">
-					<ee:message>
-						<ee:set-payload resource="dwl/finalResponse.dwl" />
-					</ee:message>
-				</ee:transform>
-		<json-logger:logger doc:name="end-logger" doc:id="f65ee903-6261-4cf8-b70f-d16c81924849" config-ref="JSON_Logger_Config1" message="Backup flow Ended" correlationId="#[vars.correlationID]" tracePoint="END"/>
+            </ee:variables>
+        </ee:transform>
+        <json-logger:logger doc:name="entry-logger" doc:id="c49cf1a2-c442-4547-bb94-37c58f9fd5c9" config-ref="JSON_Logger_Config1" message='#["Start of the transaction for correlation Id " ++ vars.correlationID]' correlationId="#[vars.correlationID]" >
+			<json-logger:content ><![CDATA[#[import modules::JSONLoggerModule output application/json ---
+{
+    payload: JSONLoggerModule::stringifyNonJSON(vars.inputParameters) 
+}]]]></json-logger:content>
+		</json-logger:logger>
+        <try doc:name="Try" doc:id="3ca3fbba-b900-4cf5-bc8e-bb77941be5c5">
+            <compression:decompress doc:name="decompress-file" doc:id="f77b7d5b-3705-429e-a552-c0a54ddae247" target="vDecompressFile">
+                <compression:compressed><![CDATA[#[%dw 2.0
+output application/java
+input payload multipart/form-data
+---
+payload.parts.'File'.content]]]></compression:compressed>
+                <compression:decompressor>
+                    <compression:zip-decompressor />
+                </compression:decompressor>
+            </compression:decompress>
+            <error-handler>
+                <on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="719cbe43-d150-4218-8892-b39995a19ad4" type="COMPRESSION:*">
+                    <ee:transform doc:name="error-case" doc:id="564459ba-3158-4315-8923-f64dcfdc299b">
+                        <ee:message />
+                        <ee:variables>
+                            <ee:set-variable variableName="httpStatus"><![CDATA[500]]></ee:set-variable>
+                            <ee:set-variable resource="dwl/errorDecompression.dwl" variableName="vErrorMessage" />
+                        </ee:variables>
+                    </ee:transform>
+                    <flow-ref doc:name="email-notification-flow" doc:id="e51674c9-939b-433f-a963-9e384464397b" name="sgst-audit-papi-email-notification" />
+                    <set-payload value="#[vars.vErrorMessage]" doc:name="set-response-message" doc:id="e31c05e7-33a7-42a6-ac67-6b2b65198e1d" />
+                </on-error-propagate>
+            </error-handler>
+        </try>
+        <json-logger:logger doc:name="logger-after-decompress" doc:id="21aff523-3fdc-4c97-ac36-443d7f7f5887" config-ref="JSON_Logger_Config1" message='#["Decompression of file is Successful for correlation Id " ++ vars.correlationID]' correlationId="#[vars.correlationID]" tracePoint="AFTER_TRANSFORM" >
+			<json-logger:content ><![CDATA[#[import modules::JSONLoggerModule output application/json ---
+{
+    payload: JSONLoggerModule::stringifyNonJSON(vars.inputParameters) 
+}]]]></json-logger:content>
+		</json-logger:logger>
+        <try doc:name="Try" doc:id="7a7c32f7-a5e8-480d-86fa-c0c22ee1dc9b">
+            <until-successful maxRetries="${sftp.reconnection.attempts}" doc:name="Until Successful" doc:id="d38f2b37-931a-486b-a4f5-2e780ecf8032" millisBetweenRetries="${sftp.reconnection.interval}">
+				<sftp:write doc:name="write-to-pcs" doc:id="9b2a20fa-b44d-48e7-b2ce-2cb9ce3baa0f" config-ref="SFTP_Config" path="#[&quot;/&quot; ++ lower(vars.inputParameters.direction) ++ &quot;/&quot; ++ lower(vars.inputParameters.subsidiary) ++ &quot;/&quot; ++ lower(vars.inputParameters.externalSystem) ++ &quot;/&quot; ++ lower(vars.inputParameters.fileType) ++ &quot;/&quot; ++ lower(vars.inputParameters.fileName) ++ &quot;.&quot; ++ vars.inputParameters.fileExtension]">
+				<sftp:content><![CDATA[#[vars.vDecompressFile]]]></sftp:content>
+			</sftp:write>
+			</until-successful>
+			<error-handler>
+                <on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="7092037a-3592-49b0-ae34-666ba0677aea" type="SFTP:*">
+                    <ee:transform doc:name="error-case" doc:id="6fd84aab-86b3-459a-b160-6c8fbc978073">
+                        <ee:message />
+                        <ee:variables>
+                            <ee:set-variable variableName="httpStatus"><![CDATA[500]]></ee:set-variable>
+                            <ee:set-variable resource="dwl/errorResponse.dwl" variableName="vErrorMessage" />
+                        </ee:variables>
+                    </ee:transform>
+                    <flow-ref doc:name="email-notification-flow" doc:id="e0358904-d454-48bb-8c4f-c31903f75eff" name="sgst-audit-papi-email-notification" />
+                    <set-payload value="#[vars.vErrorMessage]" doc:name="set-response-message" doc:id="798a7138-489c-4b53-95a3-905575e242ea" />
+                </on-error-propagate>
+            </error-handler>
+        </try>
+        <!--  <sftp:write doc:name="Write" doc:id="8971b2c7-1260-418c-b8d3-252b268e4a86" config-ref="SFTP_Config" path="#['/'++ vars.inputParameters.direction ++ '/' ++ vars.inputParameters.externalSystem ++ '/'  ++ vars.inputParameters.fileType ++ '/' ++ vars.inputParameters.fileName ++ '.'  ++ vars.inputParameters.fileExtension]"/> -->
+        <json-logger:logger doc:name="logger-after-sftp" doc:id="43f5345d-3822-4ff2-83d9-a69b14408c10" config-ref="JSON_Logger_Config1" message='#["File backup to PCS Successful for correlation Id " ++ vars.correlationID]' correlationId="#[vars.correlationID]" tracePoint="AFTER_REQUEST" >
+			<json-logger:content ><![CDATA[#[import modules::JSONLoggerModule output application/json ---
+{
+    payload: JSONLoggerModule::stringifyNonJSON(vars.inputParameters) 
+}]]]></json-logger:content>
+		</json-logger:logger>
+        <ee:transform doc:name="final-response" doc:id="1c8cacc4-d529-4bdd-b2d1-82b9d11ede0d">
+            <ee:message>
+                <ee:set-payload resource="dwl/finalResponse.dwl" />
+            </ee:message>
+        </ee:transform>
+        <json-logger:logger doc:name="end-logger" doc:id="f65ee903-6261-4cf8-b70f-d16c81924849" config-ref="JSON_Logger_Config1" message='#["End of the transaction for correlation Id " ++ vars.correlationID]' correlationId="#[vars.correlationID]" tracePoint="END" >
+			<json-logger:content ><![CDATA[#[import modules::JSONLoggerModule output application/json ---
+{
+    payload: JSONLoggerModule::stringifyNonJSON(vars.inputParameters) 
+}]]]></json-logger:content>
+		</json-logger:logger>
     </flow>
-	<flow name="sgst-audit-papi-email-notification" doc:id="eb48300c-bac9-4989-b858-3efbf82c0c53" >
-		<ee:transform doc:name="set-email-format" doc:id="31f86766-dcf9-4bb5-800b-a0930b62125b" >
-			<ee:message >
-				<ee:set-payload resource="dwl/emailFormat.dwl" />
-			</ee:message>
-		</ee:transform>
-		<ee:transform doc:name="set-email-body" doc:id="aebf591d-0942-43de-9a87-b3e264736520" >
-			<ee:message >
-				<ee:set-payload resource="dwl/emailHtmlBody.dwl" />
-			</ee:message>
+    <flow name="sgst-audit-papi-email-notification" doc:id="eb48300c-bac9-4989-b858-3efbf82c0c53">
+        <ee:transform doc:name="set-email-format" doc:id="31f86766-dcf9-4bb5-800b-a0930b62125b">
+            <ee:message>
+            </ee:message>
 			<ee:variables >
-				<ee:set-variable resource="dwl/emailAttachment.dwl" variableName="vAttachment" />
+				<ee:set-variable resource="dwl/emailFormat.dwl" variableName="emailBodyContent" />
 			</ee:variables>
-		</ee:transform>
-		<parse-template doc:name="parse-template" doc:id="ca3e6538-85e6-472a-badf-32fe9c1175b6" target="errorDetails" outputEncoding="UTF-8" outputMimeType="text/html">
-			<content>&lt;html&gt;
+        </ee:transform>
+        <ee:transform doc:name="set-email-body" doc:id="aebf591d-0942-43de-9a87-b3e264736520">
+            <ee:message>
+                <ee:set-payload resource="dwl/emailHtmlBody.dwl" />
+            </ee:message>
+            <ee:variables>
+                <ee:set-variable resource="dwl/emailAttachment.dwl" variableName="vAttachment" />
+            </ee:variables>
+        </ee:transform>
+        <parse-template doc:name="parse-template" doc:id="ca3e6538-85e6-472a-badf-32fe9c1175b6" target="mailBody" outputEncoding="UTF-8" outputMimeType="text/html">
+            <content>&lt;html&gt;
   &lt;head&gt;&lt;/head&gt;
   &lt;body&gt;
     &lt;p&gt;Dear Team,&lt;/p&gt;
-    &lt;p&gt;Error Occured while processing the below service.&lt;/p&gt;
+    &lt;p&gt;Error Occured while placing the attached file to PISCAP Common Storage for backup.&lt;/p&gt;
     &lt;br /&gt;
   #[payload]  
 &lt;br /&gt;&lt;br /&gt;
 &lt;p&gt;This is an automated mail, please do not reply.&lt;/p&gt;
 &lt;br /&gt;
 &lt;p&gt;Thanks and Regards,&lt;/p&gt;
+&lt;p&gt;Mulesoft Support Team.&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;</content>
-		</parse-template>
-		<json-logger:logger doc:name="start-email-notification-logger" doc:id="433decf1-5ec0-4109-bef2-55e97ef8d04d" config-ref="JSON_Logger_Config1" message="Before Error Email Notification Sent" correlationId="#[vars.correlationID]"/>
-		<email:send doc:name="send-email-error-notification" doc:id="d95280e3-a723-4c68-a772-4af3960729be" fromAddress="{emailSMTP.fromAddress}" subject='#["Error in Gateway -" ++ app.name]' config-ref="Email_SMTP">
-			<email:to-addresses >
-				<email:to-address value="{emailSMTP.toAddress}" />
-			</email:to-addresses>
-			<email:body contentType="text/html" encoding="UTF-8" >
-				<email:content ><![CDATA[#[vars.errorDetails]]]></email:content>
-			</email:body>
-			<email:attachments ><![CDATA[#[vars.vAttachment]]]></email:attachments>
-		</email:send>
-		<json-logger:logger doc:name="end-email-notification-logger" doc:id="c0888c65-3ecf-4c11-bf00-dca3f3881ac4" config-ref="JSON_Logger_Config1" message="After Error Email Notification Sent" correlationId="#[vars.correlationID]" tracePoint="END"/> 
-	</flow>
+        </parse-template>
+        <email:send doc:name="send-email-error-notification" doc:id="d95280e3-a723-4c68-a772-4af3960729be" fromAddress="${emailSMTP.fromAddress}" subject='#["Error backing up the file " ++ vars.inputParameters.fileName ++ " to PCS "]' config-ref="Email_SMTP">
+            <email:to-addresses>
+                <email:to-address value="{emailSMTP.toAddress}" />
+            </email:to-addresses>
+            <email:body contentType="text/html" encoding="UTF-8">
+                <email:content><![CDATA[#[vars.mailBody]]]></email:content>
+            </email:body>
+            <email:attachments><![CDATA[#[vars.vAttachment]]]></email:attachments>
+        </email:send>
+        <json-logger:logger doc:name="end-email-notification-logger" doc:id="c0888c65-3ecf-4c11-bf00-dca3f3881ac4" config-ref="JSON_Logger_Config1" message='#["End of the transaction for correlation Id " ++ vars.correlationID]' correlationId="#[vars.correlationID]" tracePoint="EXCEPTION" priority="ERROR">
+			<json-logger:content ><![CDATA[#[import modules::JSONLoggerModule output application/json ---
+{
+    payload: JSONLoggerModule::stringifyNonJSON(vars.inputParameters) 
+}]]]></json-logger:content>
+		</json-logger:logger>
+    </flow>
+    <flow name="post:\notification:application\json:sgst-audit-papi-config">
+        <flow-ref doc:name="sgst-audit-email-utility-flow" doc:id="4eceadef-3b24-453a-8f93-831c9c1bb820" name="sgst-audit-email-utilityFlow" />
+    </flow>
 </mule>

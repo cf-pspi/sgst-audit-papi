@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_58523141_31be_46b0_b2ab_634052a8e4c4_Output_Variables_filePath = Any
+

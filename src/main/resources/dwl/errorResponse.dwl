@@ -3,8 +3,8 @@ output application/json
 ---
 {
   "errorCode": 500,
-  "errorMessage": "SFTP Connectivity Error",
+  "errorMessage": error.description,
   "errorType": error.errorType,
   "correlationID": vars.correlationID,
-  "timestamp": (now() as String{format:'yyyy-MM-dd-hh-mm-ss'})
+  "timestamp": now()
 }

@@ -7,5 +7,6 @@ output application/json
 	"correlationID": attributes.headers.correlationID,
 	"fileExtension" : attributes.headers.fileExtension,
 	"fileType" : attributes.headers.fileType,
-	"fileName" : attributes.headers.fileName
+	"fileName" : attributes.headers.fileName,
+	"subsidiary" : attributes.headers.subsidiary
 }

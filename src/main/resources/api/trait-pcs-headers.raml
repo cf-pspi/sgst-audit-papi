@@ -1,31 +1,30 @@
 #%RAML 1.0 Trait
 headers: 
-  fileName:
-    type: string
-    required: true
-    example: BOM
-    description: File Name 
-  fileType:
-    type: string
-    required: true
-    example: vendor-master
-    description: Type of file
+
+
   direction:
     type: string
     required: true
-    example: outbound
-    description: direction of the flow
+    description: Direction of transaction inbound/outbound
   externalSystem:
     type: string
     required: true
-    example: SCM
-    description: source system
+    description: External System involved in the transaction
+  correlationID: 
+    type: string
+    required: true
+    description: Unique transaction ID
   fileExtension:
     type: string
     required: true
-    example: csv
-    description: target system
-  correlationID:
+    description: Extension of file
+  fileType:
     type: string
     required: true
+    description: Type of the file e.g., purchase-orders
+  fileName:
+    type: string
+    required: true
+    description: Name of the file 
+  
   

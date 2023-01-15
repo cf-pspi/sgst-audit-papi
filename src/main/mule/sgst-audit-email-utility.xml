@@ -12,15 +12,15 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
 	
-	<flow name="sgst-audit-email-utility-Flow" doc:id="b5722794-2700-4583-a27d-b0365b6b281f" >
-		<anypoint-mq:subscriber doc:name="fetch-error-audit-message" doc:id="19d96fe1-c383-4e6d-9a83-1e14460fe14d" config-ref="Anypoint_MQ_Config" destination="${amq.notification.email.publish.path}" acknowledgementMode="IMMEDIATE">
+<!-- [STUDIO:"sgst-audit-email-utility-Flow"]	<flow name="sgst-audit-email-utility-Flow" doc:id="694ad10b-f9b3-4122-8cdb-9941ff0815da" >
+		<anypoint-mq:subscriber doc:name="fetch-error-audit-message" doc:id="ef74d400-99ec-4fdd-8213-d9853af929cf" config-ref="Anypoint_MQ_Config" destination="${amq.notification.email.publish.path}" acknowledgementMode="IMMEDIATE">
 			<reconnect frequency="${reconnection.frequency}" count="${reconnection.attempts}"/>
 			<anypoint-mq:subscriber-type >
 				<anypoint-mq:prefetch maxLocalMessages="5" />
 			</anypoint-mq:subscriber-type>
 		</anypoint-mq:subscriber>
-		<json-logger:logger doc:name="entry-logger" doc:id="02a2ea7c-8be9-46f8-bc81-0ee532ebd7d6" config-ref="JSON_Logger_Config1" message="Start Email Utility Flow"/>
-		<ee:transform doc:name="retrive-params" doc:id="2dc573ae-620e-4707-a868-6b280a22d1ab">
+		<json-logger:logger doc:name="entry-logger" doc:id="aa476bf5-6c06-4ff9-bf2d-9b3266c7d9c4" config-ref="JSON_Logger_Config1" message="Start Email Utility Flow"/>
+		<ee:transform doc:name="retrive-params" doc:id="18e18059-f477-46a0-98d3-d762b8f7fe7e">
 			<ee:message>
 			</ee:message>
 			<ee:variables>
@@ -31,30 +31,79 @@ http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/m
 				<ee:set-variable resource="dwl/emailFileName.dwl" variableName="FileName" />
 				<ee:set-variable variableName="inputRequest" ><![CDATA[%dw 2.0
 output application/json
+&#45;&#45;-
+payload]]></ee:set-variable>
+			
+</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="flow-ref-sgst-common-email-utility-impl" doc:id="cd7753a1-0c10-4e93-a89f-a9450183c707" name="sgst-audit-email-utility-impl" />
+		<json-logger:logger doc:name="exit-logger" doc:id="113da40c-8177-4daa-bbd5-58857be19f52" config-ref="JSON_Logger_Config1" message="End Email Utility Flow" tracePoint="END"/>
+		<error-handler ref="global-exception-strategy" />
+	</flow> [STUDIO] -->
+	<flow name="sgst-audit-email-utilityFlow" doc:id="58523141-31be-46b0-b2ab-634052a8e4c4" >
+		<ee:transform doc:name="retrive-params" doc:id="de3ead63-cfd2-47f3-b468-2db25ef934fc">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="inputRequest"><![CDATA[%dw 2.0
+output application/json
 ---
 payload]]></ee:set-variable>
 			
 </ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="flow-ref-sgst-common-email-utility-impl" doc:id="9d685153-b824-4550-a9fa-5bf170adf0ec" name="sgst-audit-email-utility-impl" />
-		<json-logger:logger doc:name="exit-logger" doc:id="7b43f7a2-d0dd-4e61-917c-8d469410df0b" config-ref="JSON_Logger_Config1" message="End Email Utility Flow" tracePoint="END"/>
+		<json-logger:logger doc:name="entry-logger" doc:id="00b7a81b-4833-4308-8802-1c53fbd2fc28" config-ref="JSON_Logger_Config1" message='#["Start of the transaction for correlation Id " ++ vars.inputRequest.correlationID]'>
+			<json-logger:content ><![CDATA[#[import modules::JSONLoggerModule output application/json ---
+{
+    payload: JSONLoggerModule::stringifyNonJSON(vars.inputRequest) 
+}]]]></json-logger:content>
+		</json-logger:logger>
+		<flow-ref doc:name="flow-ref-sgst-common-email-utility-impl" doc:id="3c33a923-8fb9-4874-a5c3-6ba88e10cb35" name="sgst-audit-email-utility-impl" />
+		<ee:transform doc:name="Transform Message" doc:id="f0be6e5c-a3bc-4fb9-9a9a-8511dbce5b27" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"statusCode": 200,
+	"statusMessage": "Email Notification sent successfully",
+	"transactionID": vars.inputRequest.correlationID
+	}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<json-logger:logger doc:name="exit-logger" doc:id="9251d129-dec2-4275-818a-1908c4b1b76f" config-ref="JSON_Logger_Config1" message='#["End of the transaction for correlation ID "++ vars.inputRequest.correlationID]' tracePoint="END">
+			<json-logger:content ><![CDATA[#[import modules::JSONLoggerModule output application/json ---
+{
+    payload: JSONLoggerModule::stringifyNonJSON(vars.inputRequest) 
+}]]]></json-logger:content>
+		</json-logger:logger>
 		<error-handler ref="global-exception-strategy" />
 	</flow>
-	<sub-flow name="sgst-audit-email-utility-impl" doc:id="cf9afea8-b717-4f98-b6d7-9f15085219b6" >
+	<sub-flow name="sgst-audit-email-utility-impl" doc:id="9703f962-f6d0-4c9c-97ce-7020f9998e01" >
 		
-		<!-- <sftp:read doc:name="Read" doc:id="a9a70637-c963-46d1-9cd5-30c828bbcaae" config-ref="SFTP_Config" path="\sit">
+		<!-- <sftp:read doc:name="Read" doc:id="231048df-f948-4790-b8bb-ebcf92ec0482" config-ref="SFTP_Config" path="\sit">
 			<ee:repeatable-file-store-stream bufferUnit="MB" />
 		</sftp:read> -->
-		<json-logger:logger doc:name="before-fetching-logger" doc:id="1ae5a32a-9e1d-4493-aafd-e1f69409643b" config-ref="JSON_Logger_Config1" message="#Fetching the #[vars.fileName] from PCS to send alert"/>
-<!-- [STUDIO:"Read file in local directory"]		<file:read doc:name="Read file in local directory" doc:id="26741e87-a214-40cb-a96f-bb41c2e3a60a" config-ref="File_Config" path="#[vars.filePath as String ++ '\\' ++ vars.FileName as String]" target="fileInput"/> [STUDIO] -->
-		<sftp:read doc:name="read-file-from-pcs" doc:id="3d07d95a-2585-4bba-b09d-fc19f646763e" config-ref="SFTP_Config" path="#[vars.filePath]" target="fileInput"/>
-		<json-logger:logger doc:name="after-fetching-logger" doc:id="b995cde0-5a77-4bf5-936d-9ad3d8c0c6f0" config-ref="JSON_Logger_Config1" message="File fetched from PCS successfully"/>
-		<ee:transform doc:name="generate-email-body" doc:id="a18ed673-c895-4a97-85e3-7c58e76f4f19" >
+		<sftp:read doc:name="read-file-from-pcs" doc:id="82962efc-c50a-48e7-a7de-24b0aaffb4b8" config-ref="SFTP_Config" path="#[vars.inputRequest.filePath]" target="fileInput"/>
+		<json-logger:logger doc:name="after-fetching-logger" doc:id="4ec4375e-f2c7-468f-a611-0cb7b929c840" config-ref="JSON_Logger_Config1" message='#["Fetched files successfully from PCS for correlation Id " ++ vars.inputRequest.correlationID]' tracePoint="AFTER_REQUEST">
+			<json-logger:content ><![CDATA[#[import modules::JSONLoggerModule output application/json ---
+{
+    payload: JSONLoggerModule::stringifyNonJSON(vars.inputRequest) 
+}]]]></json-logger:content>
+		</json-logger:logger>
+		<ee:transform doc:name="Transform Message" doc:id="562f5fd3-5e69-4305-a607-69d5dbe69984" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dwl/emailBodyContent.dwl" variableName="emailBodyContent" />
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="generate-email-body" doc:id="46b0dd5b-54a7-42d2-bd83-b6b63056f920" >
 			<ee:message >
 				<ee:set-payload resource="dwl/emailHtmlBody.dwl" />
 			</ee:message>
 		</ee:transform>
-		<parse-template doc:name="parse-email-body-content" doc:id="b0cf013c-4168-4299-a9f2-f14fff3d0e04" target="errorDetails" outputEncoding="UTF-8" outputMimeType="text/html">
+		<parse-template doc:name="parse-email-body-content" doc:id="cdb9a462-01fa-4df6-b9a6-47e80bcb12c5" target="emailBody" outputEncoding="UTF-8" outputMimeType="text/html">
 			<content>&lt;html&gt;
   &lt;head&gt;&lt;/head&gt;
   &lt;body&gt;
@@ -66,18 +115,18 @@ payload]]></ee:set-variable>
 &lt;p&gt;This is an automated mail, please do not reply.&lt;/p&gt;
 &lt;br /&gt;
 &lt;p&gt;Thanks and Regards,&lt;/p&gt;
+&lt;p&gt;Mulesoft Support&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;</content>
 		</parse-template>
-		<json-logger:logger doc:name="start-email-notification-logger" doc:id="274b18cd-2d20-4484-a5cd-ce09c430671b" config-ref="JSON_Logger_Config1" message="Before Error Email Notification Sent"/>
-		<email:send doc:name="send-error-email-notification" doc:id="17ff6a0f-8b12-43af-badf-f31f7c977e1e" fromAddress="sabeenashaik422@gmail.com" subject='#["Error in Gateway -" ++ vars.ServiceName]' config-ref="Email_SMTP" toAddresses="#[vars.toAddresses]">
+		<email:send doc:name="send-error-email-notification" doc:id="f27ab225-eef7-414c-8a39-f841ac62981a" fromAddress="${emailSMTP.fromAddress}" subject="#[&quot;Error in processing the file &quot; ++ (vars.inputRequest.fileName as String default '') ++ &quot; from the API &quot; ++ (vars.ServiceName as String default '')]" config-ref="Email_SMTP" toAddresses="#[vars.inputRequest.toAddress]">
 			<email:body contentType="text/html" encoding="UTF-8" >
-				<email:content ><![CDATA[#[vars.errorDetails]]]></email:content>
+				<email:content ><![CDATA[#[vars.emailBody]]]></email:content>
 			</email:body>
 			<email:attachments ><![CDATA[#[{
-	(vars.FileName): vars.fileInput
+	(vars.inputRequest.FileName): vars.fileInput
 }]]]></email:attachments>
 		</email:send>
-		<json-logger:logger doc:name="end-email-notification-logger" doc:id="d0bd3172-079f-4f14-9c2a-d5d0c34e5e61" config-ref="JSON_Logger_Config1" message="After Error Email Notification Sent"/> 
+		<json-logger:logger doc:name="end-email-notification-logger" doc:id="0266416a-2832-4eee-a7ae-f92fadddf81e" config-ref="JSON_Logger_Config1" message='#["Notification sent successfully for CorrelationID " ++ vars.inputRequest.correlationID]' tracePoint="AFTER_REQUEST"/> 
 	</sub-flow>
 </mule>

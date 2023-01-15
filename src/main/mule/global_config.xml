@@ -28,11 +28,11 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<file:config name="File_Config" doc:name="File Config" doc:id="c1712bae-a40d-4f3e-9493-896283df011f" />
 	  <apikit:config name="sgst-audit-papi-config" api="sgst-audit-papi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="71b40c5e-6b8e-46ec-b0ff-d993c2a9c5a8" >
-		<sftp:connection host="${sftp.pcs.host}" username="${sftp.pcs.username}" password="3Vn13MbC4L4dxMSd" port="${sftp.pcs.port}"/>
+		<sftp:connection host="${sftp.pcs.host}" username="${sftp.pcs.username}" password="${secure::sftp.pcs.password}" port="${sftp.pcs.port}"/>
 	</sftp:config>
 	
 	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="2701e330-37bc-4e10-9321-089b424f2950" >
-		<email:smtp-connection host="{emailSMTP.host}" port="{emailSMTP.port}" user="${emailSMTP.user}" password="${emailSMTP.password}">
+		<email:smtp-connection host="${emailSMTP.host}" port="${emailSMTP.port}">
 			<email:properties >
 				<email:property key="mail.smtp.starttls.enable" value="true" />
 			</email:properties>
@@ -47,6 +47,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<global-property doc:name="Global Property" doc:id="3f16ac5f-8a0f-4b90-991e-57b18fa35261" name="env" value="sit" />
 	<global-property doc:name="Global Property" doc:id="a2e8e711-7af4-4288-8aa4-6477c5f2e43c" name="secure.key" value="PanasonicDev2022" />
 	<configuration-properties doc:name="Configuration properties" doc:id="c7867ac9-a566-449f-b392-0492a0b39d09" file="properties\common.yaml" />
+	<!--  <api-gateway:autodiscovery apiId="18415553" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="76ecf9c7-368d-4a48-abbf-23ff820df11c" flowRef="sgst-audit-papi-main" />-->
 	<error-handler name="global-exception-strategy" doc:id="06ad8d3c-b5eb-454f-aa23-d701fa59e99a" >
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="87f6c976-86fe-4ee4-8baa-4675e5e2bc5b" type="APIKIT:BAD_REQUEST">
 			<ee:transform doc:name="Transform Message" doc:id="e412592a-959f-420c-9f88-14a442701b62">
