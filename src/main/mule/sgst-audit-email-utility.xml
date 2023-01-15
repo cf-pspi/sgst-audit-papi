@@ -124,7 +124,7 @@ output application/json
 				<email:content ><![CDATA[#[vars.emailBody]]]></email:content>
 			</email:body>
 			<email:attachments ><![CDATA[#[{
-	(vars.inputRequest.FileName): vars.fileInput
+	(vars.inputRequest.fileName): vars.fileInput
 }]]]></email:attachments>
 		</email:send>
 		<json-logger:logger doc:name="end-email-notification-logger" doc:id="0266416a-2832-4eee-a7ae-f92fadddf81e" config-ref="JSON_Logger_Config1" message='#["Notification sent successfully for CorrelationID " ++ vars.inputRequest.correlationID]' tracePoint="AFTER_REQUEST"/> 
