@@ -69,7 +69,7 @@
 		<dependency>
 			<groupId>69195e0c-f771-4438-a4b2-58237c4947b6</groupId>
 			<artifactId>sgst-common-pcs-backup-utility</artifactId>
-			<version>1.0.4</version>
+			<version>1.0.5</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
 		</dependency>

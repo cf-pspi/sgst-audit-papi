@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
-	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
-	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:email="http://www.mulesoft.org/schema/mule/email"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp" xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp" xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
@@ -14,9 +14,11 @@ http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
-http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="5a0c7908-88d5-413a-a11a-74b8ac716443" >
-		<http:listener-connection host="${http.host}" port="${http.port}" readTimeout="${http.timeout}"/>
+		<http:listener-connection host="${http.host}" port="${http.port}" readTimeout="${http.timeout}" protocol="HTTPS" tlsContext="TLS_Context">
+		</http:listener-connection>
 	</http:listener-config>
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="b3278e6c-459a-4269-8564-351b87fbb755" file="properties/${env}.yaml" key="${secure.key}" />
 	<!-- <sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="2623b085-edf3-46a9-be94-9e99d2987151" >
@@ -47,7 +49,10 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<global-property doc:name="Global Property" doc:id="3f16ac5f-8a0f-4b90-991e-57b18fa35261" name="env" value="sit" />
 	<global-property doc:name="Global Property" doc:id="a2e8e711-7af4-4288-8aa4-6477c5f2e43c" name="secure.key" value="PanasonicDev2022" />
 	<configuration-properties doc:name="Configuration properties" doc:id="c7867ac9-a566-449f-b392-0492a0b39d09" file="properties\common.yaml" />
-	<!--  <api-gateway:autodiscovery apiId="18415553" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="76ecf9c7-368d-4a48-abbf-23ff820df11c" flowRef="sgst-audit-papi-main" />-->
+<!-- 	  <api-gateway:autodiscovery apiId="${api.autodiscovery.id}"  ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="76ecf9c7-368d-4a48-abbf-23ff820df11c" flowRef="sgst-audit-papi-main" />  -->
+	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="c0c3cb9b-8ebc-45d1-9cbd-b446502a8dc1" >
+		<tls:key-store type="jks" path="mykeystore.jks" alias="servercert" keyPassword="winter@123" password="winter@123" />
+	</tls:context>
 	<error-handler name="global-exception-strategy" doc:id="06ad8d3c-b5eb-454f-aa23-d701fa59e99a" >
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="87f6c976-86fe-4ee4-8baa-4675e5e2bc5b" type="APIKIT:BAD_REQUEST">
 			<ee:transform doc:name="Transform Message" doc:id="e412592a-959f-420c-9f88-14a442701b62">

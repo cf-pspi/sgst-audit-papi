@@ -39,3 +39,17 @@ sftp:
     port: '22'
     username: 'mule2Spana'
     password: '![Ah7VGyRPyLrDqv16k0OVMjbRf2uKp3/Cv2E/9PGqmhk=]'
+    
+ ######################### PCS Subsidiary Paths ######################
+pcs:
+  PAPVN-TL1:
+    rootDirectory: '/PAPVN'
+  PAPVN-TL2:
+    rootDirectory: '/PAPVNHY'
+  PMPC:
+    rootDirectory: '/PMPC'
+    
+
+  
+   
+
