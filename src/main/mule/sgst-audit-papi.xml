@@ -65,7 +65,7 @@ payload.parts.'File'.content]]]></compression:compressed>
         </json-logger:logger>
         <try doc:name="Try" doc:id="7a7c32f7-a5e8-480d-86fa-c0c22ee1dc9b">
             <until-successful maxRetries="${sftp.reconnection.attempts}" doc:name="Until Successful" doc:id="d38f2b37-931a-486b-a4f5-2e780ecf8032" millisBetweenRetries="${sftp.reconnection.interval}">
-                <sftp:write doc:name="write-to-pcs" doc:id="9b2a20fa-b44d-48e7-b2ce-2cb9ce3baa0f" config-ref="SFTP_Config" path='#["/" ++ lower(vars.inputParameters.direction) ++ "/" ++ lower(vars.inputParameters.subsidiary) ++ "/" ++ lower(vars.inputParameters.externalSystem) ++ "/" ++ lower(vars.inputParameters.fileType) ++ "/" ++ lower(vars.inputParameters.fileName) ++ "." ++ vars.inputParameters.fileExtension]'>
+                <sftp:write doc:name="write-to-pcs" doc:id="9b2a20fa-b44d-48e7-b2ce-2cb9ce3baa0f" config-ref="SFTP_Config" path='#[vars.inputParameters.filePath]'>
                     <sftp:content><![CDATA[#[vars.vDecompressFile]]]></sftp:content>
                 </sftp:write>
             </until-successful>

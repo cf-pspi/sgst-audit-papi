@@ -16,46 +16,47 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
 http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="5a0c7908-88d5-413a-a11a-74b8ac716443" >
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a425709c-c0ad-41b4-a13b-93d1ce2b3124" >
 		<http:listener-connection host="${http.host}" port="${http.port}" readTimeout="${http.timeout}" protocol="HTTPS" tlsContext="TLS_Context">
 		</http:listener-connection>
 	</http:listener-config>
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="b3278e6c-459a-4269-8564-351b87fbb755" file="properties/${env}.yaml" key="${secure.key}" />
-	<!-- <sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="2623b085-edf3-46a9-be94-9e99d2987151" >
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="883b1f19-9fce-4225-94e6-b89fd81ea026" file="properties/${env}.yaml" key="${secure.key}" />
+	<!-- <sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="af8f84a4-04b2-47f0-8244-211dd4d96495" >
 		<sftp:connection host="10.86.48.62" username="mule2Spana" password="3Vn13MbC4L4dxMSd" />
 	</sftp:config>
-	<sftp:config name="SFTP_Config1" doc:name="SFTP Config" doc:id="f7c98296-0dbe-449b-8c4a-bc230ca81b0f" >
+	<sftp:config name="SFTP_Config1" doc:name="SFTP Config" doc:id="27f8e598-58a4-456f-b9e7-e987bd8b3ba3" >
 		<sftp:connection host="LP-SF-0X106752" username="Sadhana.C" password="s$sBj=A5" />
 	</sftp:config> -->
-	<file:config name="File_Config" doc:name="File Config" doc:id="c1712bae-a40d-4f3e-9493-896283df011f" />
+	<file:config name="File_Config" doc:name="File Config" doc:id="15f5488d-751e-4ada-bfe3-b4fe18d3e8a1" />
 	  <apikit:config name="sgst-audit-papi-config" api="sgst-audit-papi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-    <sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="71b40c5e-6b8e-46ec-b0ff-d993c2a9c5a8" >
+    <sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="73687d73-8c83-4c83-862c-2bd120140914" >
 		<sftp:connection host="${sftp.pcs.host}" username="${sftp.pcs.username}" password="${secure::sftp.pcs.password}" port="${sftp.pcs.port}"/>
 	</sftp:config>
 	
-	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="2701e330-37bc-4e10-9321-089b424f2950" >
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="cedcb572-a1c8-4ea6-8302-2ef3c8169096" >
 		<email:smtp-connection host="${emailSMTP.host}" port="${emailSMTP.port}">
 			<email:properties >
 				<email:property key="mail.smtp.starttls.enable" value="true" />
 			</email:properties>
 		</email:smtp-connection>
 	</email:smtp-config>
-	<anypoint-mq:config name="Anypoint_MQ_Config" doc:name="Anypoint MQ Config" doc:id="6a6b2ac3-394f-41bb-9287-8ae08fb8837b" >
+	<anypoint-mq:config name="Anypoint_MQ_Config" doc:name="Anypoint MQ Config" doc:id="a90cb76f-8359-43da-bbd5-729a2a625976" >
 		<anypoint-mq:connection clientId="${amq.notification.email.publish.client.id}" clientSecret="${amq.notification.email.publish.client.secret}" url="${amq.notification.email.publish.url}"/>
 	</anypoint-mq:config>
 
-	<json-logger:config name="JSON_Logger_Config1" doc:name="JSON Logger Config" doc:id="5976f59f-0c07-43df-960c-67e825414616" environment="${json.logger.env}" />
-	<configuration-properties doc:name="Configuration properties" doc:id="b8d14acc-1bf2-437f-97d5-da8b5b85912e" file="properties/${env}.yaml" />
-	<global-property doc:name="Global Property" doc:id="3f16ac5f-8a0f-4b90-991e-57b18fa35261" name="env" value="sit" />
-	<global-property doc:name="Global Property" doc:id="a2e8e711-7af4-4288-8aa4-6477c5f2e43c" name="secure.key" value="PanasonicDev2022" />
-	<configuration-properties doc:name="Configuration properties" doc:id="c7867ac9-a566-449f-b392-0492a0b39d09" file="properties\common.yaml" />
-<!-- 	  <api-gateway:autodiscovery apiId="${api.autodiscovery.id}"  ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="76ecf9c7-368d-4a48-abbf-23ff820df11c" flowRef="sgst-audit-papi-main" />  -->
-	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="c0c3cb9b-8ebc-45d1-9cbd-b446502a8dc1" >
+	<json-logger:config name="JSON_Logger_Config1" doc:name="JSON Logger Config" doc:id="b2310e25-1de6-47d7-ba04-17b1977dda38" environment="${json.logger.env}" />
+	<configuration-properties doc:name="Configuration properties" doc:id="66b3d094-99e0-4702-a064-61d859cc0a38" file="properties/${env}.yaml" />
+	<global-property doc:name="Global Property" doc:id="391fd8c1-bd2e-4215-b506-2549881ec13e" name="env" value="sit" />
+	<global-property doc:name="Global Property" doc:id="4eff4bbc-ca14-47fc-9061-e28575d32151" name="secure.key" value="PanasonicDev2022" />
+	<configuration-properties doc:name="Configuration properties" doc:id="edd3c87c-be4b-47ee-9a95-bdb3e6ad23e5" file="properties\common.yaml" />
+
+	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="4e73940a-7307-4daf-abd6-094396e553dd" >
 		<tls:key-store type="jks" path="mykeystore.jks" alias="servercert" keyPassword="winter@123" password="winter@123" />
 	</tls:context>
-	<error-handler name="global-exception-strategy" doc:id="06ad8d3c-b5eb-454f-aa23-d701fa59e99a" >
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="87f6c976-86fe-4ee4-8baa-4675e5e2bc5b" type="APIKIT:BAD_REQUEST">
-			<ee:transform doc:name="Transform Message" doc:id="e412592a-959f-420c-9f88-14a442701b62">
+	<api-gateway:autodiscovery apiId="18435615" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="14ea432c-168e-47c6-b87c-f33fc417d989" flowRef="sgst-audit-papi-main" />
+	<error-handler name="global-exception-strategy" doc:id="8deac547-b233-440f-891b-b484ba7b5256" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="de2addbd-1280-4815-be8c-1a3d18041e55" type="APIKIT:BAD_REQUEST">
+			<ee:transform doc:name="Transform Message" doc:id="e487ba9c-e9f1-48a1-8e60-5af8886cadec">
 				<ee:message>
 					<ee:set-payload resource="dwl/errorBadRequest.dwl" />
 				</ee:message>
@@ -63,11 +64,11 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 					<ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<json-logger:logger doc:name="Logger" doc:id="515a0581-c36c-4c1e-bb05-16505e6da51a" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR"/>
+			<json-logger:logger doc:name="Logger" doc:id="1574c850-218e-4a8b-89f4-bc7713a18e43" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR" correlationId="#[vars.correlationID]"/>
 		
 </on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="241f1568-c524-4968-9599-52c96f199c1b" type="APIKIT:NOT_FOUND">
-			<ee:transform doc:name="Transform Message" doc:id="20897f16-fa65-47ef-9993-9fcf3989e6e9" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="dac1665a-1ca2-4254-b483-e5fab0623247" type="APIKIT:NOT_FOUND">
+			<ee:transform doc:name="Transform Message" doc:id="44777d15-d375-4eae-9706-48914df5b744" >
 				<ee:message >
 					<ee:set-payload resource="dwl/errorNotFound.dwl" />
 				</ee:message>
@@ -75,11 +76,11 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 					<ee:set-variable variableName="httpStatus" ><![CDATA[404]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<json-logger:logger doc:name="Logger" doc:id="cc9e26d8-3bc6-443f-97cd-172d8bafe725" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR"/>
+			<json-logger:logger doc:name="Logger" doc:id="1a4cf23c-f263-49ec-970f-3586bf31b683" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR" correlationId="#[vars.correlationID]"/>
 		
 </on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0443231a-4082-48d2-81ae-df0dce691d1e" type="APIKIT:METHOD_NOT_ALLOWED">
-			<ee:transform doc:name="Transform Message" doc:id="c5bc730a-c17c-4e05-8c2f-46f8a6529f6a" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="36a6a101-e49e-4127-ab71-09c55632c91e" type="APIKIT:METHOD_NOT_ALLOWED">
+			<ee:transform doc:name="Transform Message" doc:id="e1c71585-48e1-43c0-87c6-fa65d041219e" >
 				<ee:message >
 					<ee:set-payload resource="dwl/errorMethodNotAllowed.dwl" />
 				</ee:message>
@@ -87,11 +88,11 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 					<ee:set-variable variableName="httpStatus" ><![CDATA[405]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<json-logger:logger doc:name="Logger" doc:id="8dac3218-2ce4-4a5c-9201-3f58b04c3127" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR"/>
+			<json-logger:logger doc:name="Logger" doc:id="666a3282-c4bd-40d4-99ca-76453586a479" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR" correlationId="#[vars.correlationID]"/>
 		
 </on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="9f462abb-a5c7-4145-9784-897f78807e2c" type="APIKIT:NOT_ACCEPTABLE">
-			<ee:transform doc:name="Transform Message" doc:id="c4714995-1d9e-4de3-89b2-e4ed026373ee" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="25a4772c-6664-47e4-83b0-b7c3c1201e32" type="APIKIT:NOT_ACCEPTABLE">
+			<ee:transform doc:name="Transform Message" doc:id="482be9f9-b000-4efd-a251-9efe3cce3e5f" >
 				<ee:message >
 					<ee:set-payload resource="dwl/errorNotAcceptable.dwl" />
 				</ee:message>
@@ -99,11 +100,11 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 					<ee:set-variable variableName="httpStatus" ><![CDATA[406]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<json-logger:logger doc:name="Logger" doc:id="29d308ad-bc8f-452e-b8f5-85977360ea75" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR"/>
+			<json-logger:logger doc:name="Logger" doc:id="6b083a4f-f422-4d3f-b299-d82c7ab16504" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR" correlationId="#[vars.correlationID]"/>
 		
 </on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="daedbc5c-ce81-4a59-b55c-5e45ed6d1394" type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
-			<ee:transform doc:name="Transform Message" doc:id="3bf57252-b6aa-400e-a665-67c235d236b7" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="63a9adb7-975e-47a8-bfee-3e8c22b51c48" type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+			<ee:transform doc:name="Transform Message" doc:id="8c21f159-1250-47fc-ab54-16042ace7337" >
 				<ee:message >
 					<ee:set-payload resource="dwl/errorUnsupportedMediaType.dwl" />
 				</ee:message>
@@ -111,11 +112,11 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 					<ee:set-variable variableName="httpStatus" ><![CDATA[415]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<json-logger:logger doc:name="Logger" doc:id="bd5306a0-4f1f-4bac-9a20-e51dc68b7553" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR"/>
+			<json-logger:logger doc:name="Logger" doc:id="f0aa32c5-a6f0-4eba-b27c-665572fc0acc" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR" correlationId="#[vars.correlationID]"/>
 		
 </on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="4b67fad7-cce7-4335-97e1-cfc9ec93e39c" type="APIKIT:NOT_IMPLEMENTED">
-			<ee:transform doc:name="Transform Message" doc:id="845dbc42-bacc-4cb9-96b7-1ecdb46bf17a" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a68b6ebc-e2f7-4763-8d2f-9e1fba1e9702" type="APIKIT:NOT_IMPLEMENTED">
+			<ee:transform doc:name="Transform Message" doc:id="1faad085-b3cd-4c8f-964c-4fea34847189" >
 				<ee:message >
 					<ee:set-payload resource="dwl/errorNotImplemented.dwl" />
 				</ee:message>
@@ -123,11 +124,11 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 					<ee:set-variable variableName="httpStatus" ><![CDATA[501]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<json-logger:logger doc:name="Logger" doc:id="190845bd-8858-495c-a860-d5f46f554906" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR"/>
+			<json-logger:logger doc:name="Logger" doc:id="d74ad906-ae4f-482f-8bf3-0379d748a626" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR" correlationId="#[vars.correlationID]"/>
 		
 </on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e80b8a14-000b-4921-96d2-5581b88057c5" type="MULE:EXPRESSION">
-			<ee:transform doc:name="Transform Message" doc:id="e1a77eee-068e-4f72-bcc2-4117c7f6d3af" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a955a938-c103-4611-a4d3-f9fa2d4dc00c" type="MULE:EXPRESSION">
+			<ee:transform doc:name="Transform Message" doc:id="b773176b-290f-4b3f-a5c0-826c26a75901" >
 				<ee:message >
 					<ee:set-payload resource="dwl/errorExpression.dwl" />
 				</ee:message>
@@ -135,11 +136,11 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 					<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<json-logger:logger doc:name="Logger" doc:id="466cdef8-db02-4482-9bcc-a7d1447ddbd7" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR"/>
+			<json-logger:logger doc:name="Logger" doc:id="e7fbd50e-d046-49d8-b8b7-09007f6bcb15" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR" correlationId="#[vars.correlationID]"/>
 		
 </on-error-propagate>
-		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="140afd99-31cb-44a8-b41d-8ce0cc15becf" type="ANY">
-			<ee:transform doc:name="Transform Message" doc:id="076b02f6-8f60-469c-9b4a-22eb26d92099" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="7433f9cf-f51b-44d3-b35f-91384c47a373" type="ANY">
+			<ee:transform doc:name="Transform Message" doc:id="d4287334-d85e-4c85-891b-21ead5d43a30" >
 				<ee:message >
 					<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -155,7 +156,7 @@ output application/json
 					<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<json-logger:logger doc:name="Logger" doc:id="fc7786fb-cd11-43c6-b2c7-557a11e6d2b1" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR"/>
+			<json-logger:logger doc:name="Logger" doc:id="8997c99e-b6d1-4c3f-ac01-f0f6259f10b0" config-ref="JSON_Logger_Config1" message="Exception Event" tracePoint="EXCEPTION" priority="ERROR" correlationId="#[vars.correlationID]"/>
 		
 </on-error-propagate>
 	</error-handler>

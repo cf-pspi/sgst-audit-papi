@@ -1,5 +1,5 @@
 %dw 2.0
-output application/java
+output application/json skipNullOn="everywhere"
 ---
 {
 	"API Name":payload.apiName,

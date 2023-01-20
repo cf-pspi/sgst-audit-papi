@@ -1,7 +1,7 @@
 #API Manager config
 api:
   autodiscovery:
-    id: "18415553"
+    id: "18433314"
   
 
 #HTTP reconnection startegy

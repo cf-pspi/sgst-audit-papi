@@ -4,7 +4,7 @@ email:
  url : "https://mq-ap-southeast-1.anypoint.mulesoft.com/api/v1"
  clientid : "3b109a1dd2a84b238e8eaa858e572009"
  clientsecret : "C569f53f48e44a0aA0c7EcA5115c872f"
- destination : "mq-common-email-utility-sit"
+ destination : "mq-common-email-utility"
  
 #Email SMTP
 emailSMTP:
