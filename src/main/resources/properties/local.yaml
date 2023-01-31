@@ -6,10 +6,14 @@ email:
  clientsecret : "C569f53f48e44a0aA0c7EcA5115c872f"
  destination : "mq-common-email-utility"
  
+#autodiscovery
+autodiscovery:
+ id:"18460121"
+ 
 #Email SMTP
 emailSMTP:
  host: "157.8.1.154"
- port: "1025"
+ port: "25"
  toAddress: "sabeena.shaik@sg.panasonic.com" ##apacmulesupport@sg.panasonic.com
  fromAddress: "apacmulesupport@sg.panasonic.com"
  
@@ -49,10 +53,7 @@ pcs:
   PMPC:
     rootDirectory: '/PMPC'
     
-#autodiscovery
-autodiscovery:
- id:"18460121"
- 
+
   
    
 

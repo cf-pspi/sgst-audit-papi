@@ -34,7 +34,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 	</sftp:config>
 	
 	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="cedcb572-a1c8-4ea6-8302-2ef3c8169096" >
-		<email:smtp-connection host="${emailSMTP.host}" port="${emailSMTP.port}">
+		<email:smtp-connection host="smtp.gmail.com" user="pan.sgst.notification@gmail.com" password="iwrhlvzktbnhsppt" port="587" connectionTimeout="20" readTimeout="20" writeTimeout="20">
 			<email:properties >
 				<email:property key="mail.smtp.starttls.enable" value="true" />
 			</email:properties>
@@ -53,7 +53,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="4e73940a-7307-4daf-abd6-094396e553dd" >
 		<tls:key-store type="jks" path="mykeystore.jks" alias="servercert" keyPassword="winter@123" password="winter@123" />
 	</tls:context>
-	<api-gateway:autodiscovery apiId="18435615" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="14ea432c-168e-47c6-b87c-f33fc417d989" flowRef="sgst-audit-papi-main" />
+<api-gateway:autodiscovery apiId="18460121" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="14ea432c-168e-47c6-b87c-f33fc417d989" flowRef="sgst-audit-papi-main" />  
 	<error-handler name="global-exception-strategy" doc:id="8deac547-b233-440f-891b-b484ba7b5256" >
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="de2addbd-1280-4815-be8c-1a3d18041e55" type="APIKIT:BAD_REQUEST">
 			<ee:transform doc:name="Transform Message" doc:id="e487ba9c-e9f1-48a1-8e60-5af8886cadec">

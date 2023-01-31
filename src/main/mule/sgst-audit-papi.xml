@@ -26,7 +26,7 @@ input payload multipart/form-data
 payload.parts.'File'.content]]></ee:set-variable>
             </ee:variables>
         </ee:transform>
-        <json-logger:logger doc:name="entry-logger" doc:id="c49cf1a2-c442-4547-bb94-37c58f9fd5c9" config-ref="JSON_Logger_Config1" message="#[&quot;Start of the transaction for correlation Id &quot; ++ vars.correlationID]" correlationId="#[vars.correlationID]">
+        <json-logger:logger doc:name="entry-logger" doc:id="c49cf1a2-c442-4547-bb94-37c58f9fd5c9" config-ref="JSON_Logger_Config1" message="API START:INIT : Received API request." correlationId="#[vars.correlationID]">
             <json-logger:content><![CDATA[#[import modules::JSONLoggerModule output application/json ---
 {
     payload: JSONLoggerModule::stringifyNonJSON(vars.inputParameters) 
@@ -57,7 +57,7 @@ payload.parts.'File'.content]]]></compression:compressed>
                 </on-error-propagate>
             </error-handler>
         </try>
-        <json-logger:logger doc:name="logger-after-decompress" doc:id="21aff523-3fdc-4c97-ac36-443d7f7f5887" config-ref="JSON_Logger_Config1" message="#[&quot;Decompression of file is Successful for correlation Id &quot; ++ vars.correlationID]" correlationId="#[vars.correlationID]" tracePoint="AFTER_TRANSFORM">
+        <json-logger:logger doc:name="logger-after-decompress" doc:id="21aff523-3fdc-4c97-ac36-443d7f7f5887" config-ref="JSON_Logger_Config1" message="PROCESS:SUCCESS - File decompression success." correlationId="#[vars.correlationID]" tracePoint="AFTER_TRANSFORM">
             <json-logger:content><![CDATA[#[import modules::JSONLoggerModule output application/json ---
 {
     payload: JSONLoggerModule::stringifyNonJSON(vars.inputParameters) 
@@ -84,7 +84,7 @@ payload.parts.'File'.content]]]></compression:compressed>
             </error-handler>
         </try>
         <!--  <sftp:write doc:name="Write" doc:id="8971b2c7-1260-418c-b8d3-252b268e4a86" config-ref="SFTP_Config" path="#['/'++ vars.inputParameters.direction ++ '/' ++ vars.inputParameters.externalSystem ++ '/'  ++ vars.inputParameters.fileType ++ '/' ++ vars.inputParameters.fileName ++ '.'  ++ vars.inputParameters.fileExtension]"/> -->
-        <json-logger:logger doc:name="logger-after-sftp" doc:id="43f5345d-3822-4ff2-83d9-a69b14408c10" config-ref="JSON_Logger_Config1" message="#[&quot;File backup to PCS Successful for correlation Id &quot; ++ vars.correlationID]" correlationId="#[vars.correlationID]" tracePoint="AFTER_REQUEST">
+        <json-logger:logger doc:name="logger-after-sftp" doc:id="43f5345d-3822-4ff2-83d9-a69b14408c10" config-ref="JSON_Logger_Config1" message="PROCESS:SUCCESS - File backup success." correlationId="#[vars.correlationID]" tracePoint="AFTER_REQUEST">
             <json-logger:content><![CDATA[#[import modules::JSONLoggerModule output application/json ---
 {
     payload: JSONLoggerModule::stringifyNonJSON(vars.inputParameters) 
@@ -95,7 +95,7 @@ payload.parts.'File'.content]]]></compression:compressed>
                 <ee:set-payload resource="dwl/finalResponse.dwl" />
             </ee:message>
         </ee:transform>
-        <json-logger:logger doc:name="end-logger" doc:id="f65ee903-6261-4cf8-b70f-d16c81924849" config-ref="JSON_Logger_Config1" message="#[&quot;End of the transaction for correlation Id &quot; ++ vars.correlationID]" correlationId="#[vars.correlationID]" tracePoint="END">
+        <json-logger:logger doc:name="end-logger" doc:id="f65ee903-6261-4cf8-b70f-d16c81924849" config-ref="JSON_Logger_Config1" message="API END:COMPLETE : End API request." correlationId="#[vars.correlationID]" tracePoint="END">
             <json-logger:content><![CDATA[#[import modules::JSONLoggerModule output application/json ---
 {
     payload: JSONLoggerModule::stringifyNonJSON(vars.inputParameters) 
@@ -133,7 +133,8 @@ payload.parts.'File'.content]]]></compression:compressed>
 &lt;/body&gt;
 &lt;/html&gt;</content>
         </parse-template>
-        <email:send doc:name="send-email-error-notification" doc:id="d95280e3-a723-4c68-a772-4af3960729be" fromAddress="${emailSMTP.fromAddress}" subject="#[&quot;Error backing up the file &quot; ++ vars.inputParameters.fileName ++ &quot; to PCS &quot;]" config-ref="Email_SMTP">
+        <json-logger:logger doc:name="start-email-notification-logger" doc:id="da933879-1bcc-44a2-85e5-18fabc80ac48" config-ref="JSON_Logger_Config1" message="PROCESS:INIT - Email notification initiated."/>
+		<email:send doc:name="send-email-error-notification" doc:id="d95280e3-a723-4c68-a772-4af3960729be" fromAddress="${emailSMTP.fromAddress}" subject="#[&quot;Error backing up the file &quot; ++ vars.inputParameters.fileName ++ &quot; to PCS &quot;]" config-ref="Email_SMTP">
             <email:to-addresses>
                 <email:to-address value="{emailSMTP.toAddress}" />
             </email:to-addresses>
@@ -142,7 +143,7 @@ payload.parts.'File'.content]]]></compression:compressed>
             </email:body>
             <email:attachments><![CDATA[#[vars.vAttachment]]]></email:attachments>
         </email:send>
-        <json-logger:logger doc:name="end-email-notification-logger" doc:id="c0888c65-3ecf-4c11-bf00-dca3f3881ac4" config-ref="JSON_Logger_Config1" message="#[&quot;End of the transaction for correlation Id &quot; ++ vars.correlationID]" correlationId="#[vars.correlationID]" tracePoint="EXCEPTION" priority="ERROR">
+        <json-logger:logger doc:name="end-email-notification-logger" doc:id="c0888c65-3ecf-4c11-bf00-dca3f3881ac4" config-ref="JSON_Logger_Config1" message="PROCESS:SUCCESS - Email notification sent success." correlationId="#[vars.correlationID]" tracePoint="EXCEPTION" priority="ERROR">
             <json-logger:content><![CDATA[#[import modules::JSONLoggerModule output application/json ---
 {
     payload: JSONLoggerModule::stringifyNonJSON(vars.inputParameters) 

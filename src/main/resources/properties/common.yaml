@@ -14,7 +14,7 @@ reconnection:
 #HTTP config details
 http:
   host: '0.0.0.0'
-  port: '8081'
+  port: '8082'
   path: '/api/v1/*'
   timeout: '50000'
 
