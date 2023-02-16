@@ -1,4 +1,5 @@
-
+mule:
+   env: 'sit'
 #common-email-utility
 email:
  url : "https://mq-ap-southeast-1.anypoint.mulesoft.com/api/v1"
@@ -10,8 +11,8 @@ email:
 emailSMTP:
  host: "157.8.1.154"
  port: "1025"
- toAddress: "sabeena.shaik@sg.panasonic.com" ##apacmulesupport@sg.panasonic.com
- fromAddress: "apacmulesupport@sg.panasonic.com"
+ toAddress: "pan.sgst.notification@gmail.com" ##apacmulesupport@sg.panasonic.com
+ fromAddress: "sgstpan.sndr@gmail.com"
  
 #Json-logger
 json:
@@ -51,7 +52,7 @@ pcs:
     
 #autodiscovery
 autodiscovery:
- id:"18460121"
+    id: "18460121"
  
   
    

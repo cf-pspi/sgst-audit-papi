@@ -20,7 +20,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 		<http:listener-connection host="${http.host}" port="${http.port}" readTimeout="${http.timeout}" protocol="HTTPS" tlsContext="TLS_Context">
 		</http:listener-connection>
 	</http:listener-config>
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="883b1f19-9fce-4225-94e6-b89fd81ea026" file="properties/${env}.yaml" key="${secure.key}" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="883b1f19-9fce-4225-94e6-b89fd81ea026" file="properties/${mule.env}.yaml" key="${secure.key}" />
 	<!-- <sftp:config name="SFTP_Config" doc:name="SFTP Config" doc:id="af8f84a4-04b2-47f0-8244-211dd4d96495" >
 		<sftp:connection host="10.86.48.62" username="mule2Spana" password="3Vn13MbC4L4dxMSd" />
 	</sftp:config>
@@ -45,15 +45,15 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 	</anypoint-mq:config>
 
 	<json-logger:config name="JSON_Logger_Config1" doc:name="JSON Logger Config" doc:id="b2310e25-1de6-47d7-ba04-17b1977dda38" environment="${json.logger.env}" />
-	<configuration-properties doc:name="Configuration properties" doc:id="66b3d094-99e0-4702-a064-61d859cc0a38" file="properties/${env}.yaml" />
-	<global-property doc:name="Global Property" doc:id="391fd8c1-bd2e-4215-b506-2549881ec13e" name="env" value="sit" />
+	<configuration-properties doc:name="Configuration properties" doc:id="66b3d094-99e0-4702-a064-61d859cc0a38" file="properties/${mule.env}.yaml" />
+	<global-property doc:name="Global Property" doc:id="391fd8c1-bd2e-4215-b506-2549881ec13e" name="mule.env" value="${mule.env}" />
 	<global-property doc:name="Global Property" doc:id="4eff4bbc-ca14-47fc-9061-e28575d32151" name="secure.key" value="PanasonicDev2022" />
 	<configuration-properties doc:name="Configuration properties" doc:id="edd3c87c-be4b-47ee-9a95-bdb3e6ad23e5" file="properties\common.yaml" />
 
 	<tls:context name="TLS_Context" doc:name="TLS Context" doc:id="4e73940a-7307-4daf-abd6-094396e553dd" >
 		<tls:key-store type="jks" path="mykeystore.jks" alias="servercert" keyPassword="winter@123" password="winter@123" />
 	</tls:context>
-<api-gateway:autodiscovery apiId="18460121" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="14ea432c-168e-47c6-b87c-f33fc417d989" flowRef="sgst-audit-papi-main" />  
+<api-gateway:autodiscovery apiId="${autodiscovery.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="14ea432c-168e-47c6-b87c-f33fc417d989" flowRef="sgst-audit-papi-main" />  
 	<error-handler name="global-exception-strategy" doc:id="8deac547-b233-440f-891b-b484ba7b5256" >
 		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="de2addbd-1280-4815-be8c-1a3d18041e55" type="APIKIT:BAD_REQUEST">
 			<ee:transform doc:name="Transform Message" doc:id="e487ba9c-e9f1-48a1-8e60-5af8886cadec">

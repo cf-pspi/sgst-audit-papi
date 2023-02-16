@@ -106,14 +106,14 @@ output application/json
   &lt;head&gt;&lt;/head&gt;
   &lt;body&gt;
     &lt;p&gt;Dear Team,&lt;/p&gt;
-    &lt;p&gt;Error Occured while processing the below transaction. Please find attached the file being processed.&lt;/p&gt;
+    &lt;p&gt;Error occurred while processing the EDI transaction. Please find the details below and attached is the file associated to the transaction&lt;/p&gt;
     &lt;br /&gt;
   #[payload]  
 &lt;br /&gt;&lt;br /&gt;
 &lt;p&gt;This is an automated mail, please do not reply.&lt;/p&gt;
 &lt;br /&gt;
 &lt;p&gt;Thanks and Regards,&lt;/p&gt;
-&lt;p&gt;Mulesoft Support&lt;/p&gt;
+&lt;p&gt;APAC Support, Panasonic&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;</content>
 		</parse-template>
@@ -122,14 +122,14 @@ output application/json
   &lt;head&gt;&lt;/head&gt;
   &lt;body&gt;
     &lt;p&gt;Dear Team,&lt;/p&gt;
-    &lt;p&gt;Error Occured while processing the below transaction. Please find the error details below.&lt;/p&gt;
+    &lt;p&gt;Error occurred while processing the EDI transaction. Please find the details below and attached is the file associated to the transaction.&lt;/p&gt;
     &lt;br /&gt;
   #[payload]  
 &lt;br /&gt;&lt;br /&gt;
 &lt;p&gt;This is an automated mail, please do not reply.&lt;/p&gt;
 &lt;br /&gt;
 &lt;p&gt;Thanks and Regards,&lt;/p&gt;
-&lt;p&gt;Mulesoft Support&lt;/p&gt;
+&lt;p&gt;APAC Support, Panasonic&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;</content>
 		</parse-template>
@@ -146,12 +146,6 @@ vars.emailBodyWithOutAttachment
 else
 vars.emailBodyWithAttachment]]]></email:content>
 			</email:body>
-			<email:attachments><![CDATA[#[if (vars.inputRequest.filePath == "NA") 
-{}
-else
-{
-	(vars.inputRequest.fileName): vars.fileInput
-}]]]></email:attachments>
 		</email:send>
 		<json-logger:logger doc:name="end-email-notification-logger" doc:id="0266416a-2832-4eee-a7ae-f92fadddf81e" config-ref="JSON_Logger_Config1" message='PROCESS:SUCCESS - Email notification sent success.' tracePoint="AFTER_REQUEST" correlationId="#[vars.correlationID]">
 			<json-logger:content ><![CDATA[#[import modules::JSONLoggerModule output application/json ---
