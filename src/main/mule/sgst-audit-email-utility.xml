@@ -40,15 +40,15 @@ payload]]></ee:set-variable>
     payload: JSONLoggerModule::stringifyNonJSON(vars.inputRequest) 
 }]]]></json-logger:content>
 		</json-logger:logger>
-		<choice doc:name="Choice" doc:id="8b6e2b74-8bc2-44f8-9ef5-3e9b159ae35a" >
-			<when expression='#[vars.inputRequest.filePath == "NA"]'>
+		<!-- <choice doc:name="Choice" doc:id="8b6e2b74-8bc2-44f8-9ef5-3e9b159ae35a" >
+			<when expression='#[vars.inputRequest.filePath == "NA"]'> -->
 				<flow-ref doc:name="flow-ref-email-notification" doc:id="b78d1413-9714-4d66-83c3-328a6d537380" name="sgst-audit-email-utility-send-email-sub-flow"/>
-			</when>
+			<!-- </when>
 			<otherwise >
 				<flow-ref doc:name="flow-ref-sgst-common-email-utility-impl" doc:id="3c33a923-8fb9-4874-a5c3-6ba88e10cb35" name="sgst-audit-email-utility-fetch-file-pcs-sub-flow" />
 				<flow-ref doc:name="Flow Reference" doc:id="acb5de87-60e9-4714-92f4-745d6e5867ba" name="sgst-audit-email-utility-send-email-sub-flow"/>
 			</otherwise>
-		</choice>
+		</choice> -->
 		<ee:transform doc:name="final response" doc:id="f0be6e5c-a3bc-4fb9-9a9a-8511dbce5b27" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
@@ -101,7 +101,7 @@ output application/json
 				<ee:set-payload resource="dwl/emailHtmlBody.dwl" />
 			</ee:message>
 		</ee:transform>
-		<parse-template doc:name="parse-email-body-content-with-file" doc:id="cdb9a462-01fa-4df6-b9a6-47e80bcb12c5" target="emailBodyWithAttachment" outputEncoding="UTF-8" outputMimeType="text/html">
+		<!-- <parse-template doc:name="parse-email-body-content-with-file" doc:id="cdb9a462-01fa-4df6-b9a6-47e80bcb12c5" target="emailBodyWithAttachment" outputEncoding="UTF-8" outputMimeType="text/html">
 			<content>&lt;html&gt;
   &lt;head&gt;&lt;/head&gt;
   &lt;body&gt;
@@ -116,7 +116,7 @@ output application/json
 &lt;p&gt;APAC Support, Panasonic&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;</content>
-		</parse-template>
+		</parse-template> -->
 		<parse-template doc:name="parse-email-body-content-with-out-file" doc:id="663b652b-c073-45af-b7e5-0b96392eb5d0" target="emailBodyWithOutAttachment">
 			<content >&lt;html&gt;
   &lt;head&gt;&lt;/head&gt;
@@ -139,12 +139,12 @@ output application/json
     payload: JSONLoggerModule::stringifyNonJSON(vars.inputRequest) 
 }]]]></json-logger:content>
 		</json-logger:logger>
-		<email:send doc:name="send-error-email-notification" doc:id="f27ab225-eef7-414c-8a39-f841ac62981a" fromAddress="${emailSMTP.fromAddress}" subject="#[&quot;Error in processing the file &quot; ++ (vars.inputRequest.fileName as String default '') ++ &quot; from the API &quot; ++ (vars.ServiceName as String default '')]" config-ref="Email_SMTP" toAddresses="#[payload.toAddress]">
+		<email:send doc:name="send-error-email-notification" doc:id="f27ab225-eef7-414c-8a39-f841ac62981a" fromAddress="${emailSMTP.fromAddress}" subject="#[&quot;Error:&quot; ++ (vars.inputRequest.subsidiary as String default '') ++ &quot; &quot; ++ vars.inputRequest.source ++ &quot; &quot;++ vars.inputRequest.target ++ &quot; &quot; ++ vars.inputRequest.resource ++ &quot; &quot; ++ upper(Mule::p('mule.env'))]" config-ref="Email_SMTP" toAddresses="#[payload.toAddress]">
 			<email:body contentType="text/html" encoding="UTF-8">
-				<email:content><![CDATA[#[if (vars.inputRequest.path == "") 
+				<email:content><![CDATA[#[//if (vars.inputRequest.path == "") 
 vars.emailBodyWithOutAttachment
-else
-vars.emailBodyWithAttachment]]]></email:content>
+//else
+//vars.emailBodyWithAttachment]]]></email:content>
 			</email:body>
 		</email:send>
 		<json-logger:logger doc:name="end-email-notification-logger" doc:id="0266416a-2832-4eee-a7ae-f92fadddf81e" config-ref="JSON_Logger_Config1" message='PROCESS:SUCCESS - Email notification sent success.' tracePoint="AFTER_REQUEST" correlationId="#[vars.correlationID]">
