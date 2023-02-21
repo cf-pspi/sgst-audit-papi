@@ -139,7 +139,7 @@ output application/json
     payload: JSONLoggerModule::stringifyNonJSON(vars.inputRequest) 
 }]]]></json-logger:content>
 		</json-logger:logger>
-		<email:send doc:name="send-error-email-notification" doc:id="f27ab225-eef7-414c-8a39-f841ac62981a" fromAddress="${emailSMTP.fromAddress}" subject="#[&quot;Error in processing the file &quot; ++ (vars.inputRequest.fileName as String default '') ++ &quot; from the API &quot; ++ (vars.ServiceName as String default '')]" config-ref="Email_SMTP" toAddresses="#[vars.inputRequest.toAddress]">
+		<email:send doc:name="send-error-email-notification" doc:id="f27ab225-eef7-414c-8a39-f841ac62981a" fromAddress="${emailSMTP.fromAddress}" subject="#[&quot;Error in processing the file &quot; ++ (vars.inputRequest.fileName as String default '') ++ &quot; from the API &quot; ++ (vars.ServiceName as String default '')]" config-ref="Email_SMTP" toAddresses="#[payload.toAddress]">
 			<email:body contentType="text/html" encoding="UTF-8">
 				<email:content><![CDATA[#[if (vars.inputRequest.path == "") 
 vars.emailBodyWithOutAttachment

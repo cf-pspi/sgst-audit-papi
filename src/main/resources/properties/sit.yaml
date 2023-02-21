@@ -13,6 +13,8 @@ emailSMTP:
  port: "1025"
  toAddress: "pan.sgst.notification@gmail.com" ##apacmulesupport@sg.panasonic.com
  fromAddress: "sgstpan.sndr@gmail.com"
+ password: '![K2rf//HaDU6OSmcwhpqhBw==]'
+ 
  
 #Json-logger
 json:

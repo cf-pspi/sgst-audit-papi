@@ -34,7 +34,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 	</sftp:config>
 	
 	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="cedcb572-a1c8-4ea6-8302-2ef3c8169096" >
-		<email:smtp-connection host="smtp.gmail.com" user="pan.sgst.notification@gmail.com" password="iwrhlvzktbnhsppt" port="587" connectionTimeout="20" readTimeout="20" writeTimeout="20">
+		<email:smtp-connection host="${emailSMTP.host}" user="${emailSMTP.fromAddress}" password="${secure::emailSMTP.password}" port="${emailSMTP.port}" connectionTimeout="20" readTimeout="20" writeTimeout="20">
 			<email:properties >
 				<email:property key="mail.smtp.starttls.enable" value="true" />
 			</email:properties>
