@@ -31,7 +31,7 @@ amq:
     email:
       publish: 
         url: 'https://mq-us-east-1.anypoint.mulesoft.com/api/v1'
-        path:   'mq-common-audit'
+        path:   'mq-common-audit-aen'
         client:
           id:     '3b109a1dd2a84b238e8eaa858e572009'
           secret: 'C569f53f48e44a0aA0c7EcA5115c872f'
