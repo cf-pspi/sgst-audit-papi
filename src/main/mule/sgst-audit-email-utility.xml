@@ -139,7 +139,7 @@ output application/json
     payload: JSONLoggerModule::stringifyNonJSON(vars.inputRequest) 
 }]]]></json-logger:content>
 		</json-logger:logger>
-		<email:send doc:name="send-error-email-notification" doc:id="f27ab225-eef7-414c-8a39-f841ac62981a" fromAddress="${emailSMTP.fromAddress}" subject="#[&quot;Error:&quot; ++ (vars.inputRequest.subsidiary as String default '') ++ &quot; &quot; ++ vars.inputRequest.source ++ &quot; &quot;++ vars.inputRequest.target ++ &quot; &quot; ++ vars.inputRequest.resource ++ &quot; &quot; ++ upper(Mule::p('mule.env'))]" config-ref="Email_SMTP" toAddresses="#[payload.toAddress]">
+		<email:send doc:name="send-error-email-notification" doc:id="f27ab225-eef7-414c-8a39-f841ac62981a" fromAddress="${emailSMTP.fromAddress}" subject="#[&quot;Error:&quot; ++ (vars.inputRequest.subsidiary as String default '') ++ &quot; &quot; ++ vars.inputRequest.source ++ &quot; &quot;++ vars.inputRequest.target ++ &quot; &quot; ++ vars.inputRequest.resource ++ &quot; &quot; ++ upper(Mule::p('mule.env'))]" config-ref="Email_SMTP" toAddresses="#[vars.inputRequest.toAddress]">
 			<email:body contentType="text/html" encoding="UTF-8">
 				<email:content><![CDATA[#[//if (vars.inputRequest.path == "") 
 vars.emailBodyWithOutAttachment
